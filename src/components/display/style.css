@@ -1,0 +1,15 @@
+.canvas-container {
+    position: absolute;
+    left: 50px;
+    border: thin black solid;
+    margin: 0;
+    padding: 0;
+}
+
+.display-canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: top left;
+    z-index: 1;
+}
