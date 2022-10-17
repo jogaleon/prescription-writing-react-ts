@@ -1,10 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Main from './views/main';
 
-function App() {
+
+const App = () => {
   return (
     <div className="App">
+      <Main />
     </div>
   );
 }
