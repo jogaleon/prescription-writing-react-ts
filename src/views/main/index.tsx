@@ -8,7 +8,7 @@ const Main: React.FunctionComponent<IMainProps> = (props) => {
   return (
     <div className='Main'>
       Main
-      <Display width={100} height={100}/>
+      <Display width={1200} height={600}/>
     </div>
   );
 };

@@ -2,22 +2,29 @@ import { useState, useEffect, useRef } from 'react';
 import readFile from './utils/readFile';
 import dataToImage from './utils/dataToImage';
 
+import { ImageData } from '../../types/state/imageData';
+
 import './style.css'
+import Marker from './components/marker';
+import { calculateScale } from './utils/calculateScale';
+import { DisplayData } from '../../types/state/displayData';
 
 interface IDisplayProps {
     width: number
     height: number
 }
 
-const SCALE_FACTOR = 0.3;
+const MAX_WIDTH = 1000;
 
-const Display: React.FunctionComponent<IDisplayProps> = ({width, height}) => {
-    const CANVAS_STYLE = {
-        width: width,
-        height: height
-    }
-    const [scaleFactor, setScaleFactor] = useState(1);
-    const [imageData, setImageData] = useState<string|null>(null);
+const Display: React.FunctionComponent<IDisplayProps> = () => {
+    const [imageData, setImageData] = useState<ImageData|null>(null);
+    const [displayData, setDisplayData] = useState<DisplayData>({
+        positionX: 0,
+        positionY: 0,
+        width: 0,
+        height: 0
+    });
+
     const canvasRef = useRef<HTMLCanvasElement|null>(null);
     const containerRef = useRef<HTMLDivElement|null>(null);
 
@@ -25,34 +32,61 @@ const Display: React.FunctionComponent<IDisplayProps> = ({width, height}) => {
         if (!e.target.files) return
         const data = await readFile(e.target.files[0]);
         const image = await dataToImage(data);
-
-        setImageData(data)
+        setImageData({
+            rawData: data,
+            nativeWidth: image.width,
+            nativeHeight: image.height,
+            scaleFactor: calculateScale(MAX_WIDTH, image.width, 3)
+        })
     }
 
+    //
     useEffect(() => {
         const canvas = canvasRef.current;
         const container = containerRef.current;
         if (!canvas || !container || !imageData) return;
 
-        const drawImageToCanvas = async (imageData: string, canvas: HTMLCanvasElement, canvasContainer: HTMLDivElement) => {
-            const imageElement = await dataToImage(imageData);
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return;
-            canvas.width = imageElement.naturalWidth;
-            canvas.height = imageElement.naturalHeight;
-    
-            ctx.drawImage(imageElement, 0,0);
-    
-            container.style.width = `${imageElement.naturalWidth * SCALE_FACTOR}px`;
-            container.style.height = `${imageElement.naturalHeight * SCALE_FACTOR}px`;
-            
-            // ctx.drawImage(imageElement, 0,0);
-            canvas.style.transform = `scale(${SCALE_FACTOR})`;
+        const fitDisplayToImage = (imageData: ImageData, canvas: HTMLCanvasElement, container: HTMLDivElement) => {
+            const w = imageData.nativeWidth;
+            const h = imageData.nativeHeight;
+            const s = imageData.scaleFactor;
+
+            canvas.width = w;
+            canvas.height = h;
+            canvas.style.transform = `scale(${s})`;
+
+            container.style.width = `${w * s}px`;
+            container.style.height = `${h * s}px`;
         }
 
-        drawImageToCanvas(imageData, canvas, container)
+        const drawImageToCanvas = async (imageData: ImageData, canvas: HTMLCanvasElement) => {
+            const imageElement = await dataToImage(imageData.rawData);
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            ctx.drawImage(imageElement, 0,0);
+        }
+
+        fitDisplayToImage(imageData, canvas, container);
+        setDisplayData(prevDisplayData => ({
+            ...prevDisplayData,
+            width: container.offsetWidth,
+            height: container.offsetHeight
+        }))
+        drawImageToCanvas(imageData, canvas);
     },[imageData])
-    
+
+    //Get display x, y position and initial w,h
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return
+        setDisplayData({
+            positionX: container.getBoundingClientRect().left,
+            positionY: container.getBoundingClientRect().top,
+            width: container.offsetWidth,
+            height: container.offsetHeight
+        })
+    },[])
+
     return (
         <div className='Display'>
             Display
@@ -62,7 +96,8 @@ const Display: React.FunctionComponent<IDisplayProps> = ({width, height}) => {
                 onChange={handleInputFile}
             />
             <div className='canvas-container' ref={containerRef}>
-                <canvas style={CANVAS_STYLE} className='display-canvas' ref={canvasRef} />
+                <Marker displayData={displayData} />
+                <canvas className='display-canvas' ref={canvasRef} />
             </div>
         </div>
     );

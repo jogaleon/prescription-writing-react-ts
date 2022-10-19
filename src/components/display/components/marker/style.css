@@ -1,0 +1,8 @@
+.Marker {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+
+    border: thin red solid;
+    z-index: 5;
+}
