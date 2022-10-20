@@ -1,10 +1,15 @@
 import { useRef } from 'react';
+
 import useDraggableMarker from '../../../../hooks/useDraggableMarker';
+
 import { DisplayData } from '../../../../types/state/displayData';
+import { MarkerData } from '../../../../types/state/markerData';
+
 import './style.css';
 
 interface IMarkerProps {
   displayData: DisplayData
+  marker: MarkerData
 }
 
 const Marker: React.FunctionComponent<IMarkerProps> = ({displayData}) => {

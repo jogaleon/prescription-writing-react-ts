@@ -1,4 +1,4 @@
-export type Marker = {
+export type MarkerData = {
     id: string
     label: string
     text: string
@@ -6,4 +6,5 @@ export type Marker = {
     x: number
     y: number
     width: number
+    height: number
 }

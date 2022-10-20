@@ -1,11 +1,14 @@
 import './App.css';
+import { MarkerContextProvider } from './context/MarkerContext';
 import Main from './views/main';
 
 
 const App = () => {
   return (
     <div className="App">
-      <Main />
+      <MarkerContextProvider>
+        <Main />
+      </MarkerContextProvider>
     </div>
   );
 }
