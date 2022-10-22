@@ -1,29 +1,39 @@
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 
 import useDraggableMarker from '../../../../hooks/useDraggableMarker';
+import useResizeWidthMarker from '../../../../hooks/useResizableWidthMarker';
 
-import { DisplayData } from '../../../../types/state/displayData';
+
+// import { DisplayData } from '../../../../types/state/displayData';
+import { IElementDataState } from '../../../../hooks/useElementSize';
 import { MarkerData } from '../../../../types/state/markerData';
 
 import './style.css';
 
 interface IMarkerProps {
-  displayData: DisplayData
+  containerData: IElementDataState
   marker: MarkerData
 }
 
-const Marker: React.FunctionComponent<IMarkerProps> = ({displayData}) => {
-  const markerRef = useRef<HTMLDivElement | null>(null);
-  
-  useDraggableMarker(markerRef, '', 0, 0, {
-    sX: displayData.positionX,
-    sY: displayData.positionY,
-    eX: displayData.positionX + displayData.width,
-    eY: displayData.positionY + displayData.height
-  })
-  return (
-    <div ref={markerRef} className='Marker'>
+const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker}) => {
+  const markerStyle = {
+    height: marker.height
+  }
 
+  const markerRef = useRef<HTMLDivElement | null>(null);
+  const markerResizeHandleRef = useRef<HTMLDivElement | null>(null);
+
+  useDraggableMarker(markerRef, marker.id, marker.x, marker.y, {
+    sX: containerData.positionX,
+    sY: containerData.positionY,
+    eX: containerData.positionX + containerData.width,
+    eY: containerData.positionY + containerData.height
+  })
+  useResizeWidthMarker(markerResizeHandleRef, marker.id, marker.width, containerData.positionX + containerData.width)
+  return (
+    <div className='Marker' style={markerStyle} ref={markerRef}>
+      <p className='marker-label'>{marker.label}</p>
+      <div className='marker-resize-handle' ref={markerResizeHandleRef}></div>
     </div>
   );
 };

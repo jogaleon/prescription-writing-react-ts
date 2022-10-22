@@ -1,37 +1,43 @@
 import { useState, useEffect, useContext, Ref } from "react";
-import MarkerContext, { MarkerContextType } from "../context/MarkerContext";
-import { ImageData } from "../types/state/imageData";
-// import MarkerContext from "../../context/MarkerContext";
+import throttle from "./utils/throttle";
 
-type BoundaryBox = {
-  sX: number
-  sY: number
-  eX: number
-  eY: number
-}
+import { MarkerData } from './../types/state/markerData';
+import { BoundaryBox } from './../types/boundaryBox';
+
+import MarkerContext, { MarkerContextType } from "../context/marker-context/MarkerContext";
 
 const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, markerId: string, startX: number, startY: number, boundaryBox: BoundaryBox) => {
   const [{ x, y }, setPosition] = useState({ x: startX, y: startY });
-  const markerContext = useContext(MarkerContext) as MarkerContextType
+  const [isDragging, setIsDragging] = useState(false);
+  const {markersDispatch} = useContext(MarkerContext) as MarkerContextType;
+  
 
+  useEffect(() => {
+    setPosition({ x: startX, y: startY })
+  },[startX, startY])
+
+  //Dragging logic
   useEffect(() => {
     const marker = el.current;
     if (!marker) return
 
     const {sX, sY, eX, eY} = boundaryBox;
     const dragStart = (e: MouseEvent) => {
-        const target = e.currentTarget as HTMLDivElement
-        if (!target) return
-        if (!Array.from(target.classList).includes('Marker')) return
+        setIsDragging(true);
+
+        const target = e.target as HTMLDivElement
+        if (!target || !Array.from(target.classList).includes('Marker')) return 
+
         const offsetX = e.clientX - target.getBoundingClientRect().left;
         const offsetY = e.clientY - target.getBoundingClientRect().top;
         
         const dragging = (e: MouseEvent) => {
           const newX = e.clientX - offsetX;
           const newY = e.clientY - offsetY;
-          // console.log(newX, eX)
+
           if (newX < sX || newX > eX - marker.offsetWidth) return
-          if (newY < sY || newY > eY- marker.offsetHeight) return
+          if (newY < sY || newY > eY - marker.offsetHeight) return
+          
           setPosition({
               x: newX - sX,
               y: newY - sY
@@ -39,13 +45,8 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
         };
 
         const dragEnd = (e: MouseEvent) => {
-          console.log(markerContext)
-        // markerContext.markersDispatch({type: 'SAVE_POSITION', payload: {
-        //     id: markerId,
-        //     newX: e.clientX - offsetX,
-        //     newY: e.clientY - offsetY
-        // }})
-        document.removeEventListener("mousemove", dragging);
+          setIsDragging(false)
+          document.removeEventListener("mousemove", dragging);
         };
 
         document.addEventListener("mousemove", dragging);
@@ -57,14 +58,25 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
     return () => {
       marker.removeEventListener("mousedown", dragStart);
     };
-  }, [el, markerId, x, y, boundaryBox, markerContext]);
+  }, [el, boundaryBox, markersDispatch]);
 
+  //
   useEffect(() => {
     const marker = el.current
     if (!marker) return
     marker.style.left = `${x}px`;
     marker.style.top = `${y}px`;
   }, [el, x, y]);
+
+  //Saving new position to state (x and y deps are intentionally omitted)
+  useEffect(() => {
+    if (isDragging) return
+    markersDispatch({type: 'SAVE_POSITION', payload: {
+      id: markerId,
+      newX: x,
+      newY: y
+    }})
+  },[markerId, isDragging, markersDispatch])
 }
 
 export default useDraggableMarker;
