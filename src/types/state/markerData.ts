@@ -2,7 +2,7 @@ export type MarkerData = {
     id: string
     label: string
     text: string
-    fontSize: number
+    textSize: string
     x: number
     y: number
     width: number

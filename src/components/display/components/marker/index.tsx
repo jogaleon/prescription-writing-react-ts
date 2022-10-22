@@ -14,7 +14,10 @@ interface IMarkerProps {
 
 const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker}) => {
   const markerStyle = {
-    height: marker.height
+    height: `${marker.textSize}px`,
+  }
+  const markerTextStyle = {
+    fontSize: `${marker.textSize}px`
   }
 
   const markerRef = useRef<HTMLDivElement | null>(null);
@@ -30,6 +33,7 @@ const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker}) 
   return (
     <div className='Marker' style={markerStyle} ref={markerRef}>
       <p className='marker-label'>{marker.label}</p>
+      <p className='marker-text' style={markerTextStyle}>{marker.text}</p>
       <div className='marker-resize-handle' ref={markerResizeHandleRef}></div>
     </div>
   );

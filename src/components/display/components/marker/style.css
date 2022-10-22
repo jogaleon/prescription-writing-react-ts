@@ -11,8 +11,16 @@
 
 .marker-label {
     position: absolute;
-    top: -80%; 
+    top: -38px;
     color: red;
+}
+
+.marker-text {
+    position: absolute;
+    
+    line-height: none;
+    padding: 0;
+    margin: 0;
 }
 
 .marker-resize-handle {

@@ -11,12 +11,13 @@ const MarkerEditor: React.FunctionComponent<IMarkerEditorProps> = (props) => {
         return <MarkerEditorItem
             key={marker.id} 
             marker={marker}
+            markersDispatch={markersDispatch}
         />
     })
     return (
-    <div className="MarkerEditor">
-        {markerEditorItemElements}
-    </div>
+        <div className="MarkerEditor">
+            {markerEditorItemElements}
+        </div>
     );
 };
 

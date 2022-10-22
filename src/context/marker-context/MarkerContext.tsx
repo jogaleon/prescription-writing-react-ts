@@ -10,8 +10,10 @@ const DATA_KEY = 'MARKERS';
 
 export type MarkerActionType =
     {type: 'ADD_MARKER'} |
-    {type: 'SAVE_POSITION'; payload: {id: string, newX: number, newY: number}} |
-    {type: 'SAVE_DIMENSIONS'; payload: {id: string, newW: number, newH?: number}} |
+    {type: 'SAVE_MARKER_POSITION'; payload: {id: string, newX: number, newY: number}} |
+    {type: 'SAVE_MARKER_DIMENSIONS'; payload: {id: string, newW: number, newH?: number}} |  
+    {type: 'EDIT_MARKER'; payload: {id: string, label: string, text: string, textSize: string}} |
+    {type: 'DELETE_MARKER'; payload: {id: string}} |
     {type: 'CLEAR_MARKERS'} |
     {type: 'RESET_MARKERS'}
 ;
@@ -25,9 +27,9 @@ export type MarkerContextType = {
 const addMarker = (state: MarkerData[]) => {
     return [...state, {
         id: uuid(),
-        label: 'label',
+        label: 'Marker',
         text: '',
-        fontSize: 12,
+        textSize: MARKER_SETTINGS.DEFAULT_TEXT_SIZE,
         x: 0,
         y: 0,
         width: 100,
@@ -44,11 +46,24 @@ const saveMarkerPosition = (state: MarkerData[], id: string, newX: number, newY:
 }
 
 const saveMarkerDimensions = (state: MarkerData[], id: string, newW: number, newH?: number) => {
-    return state.map(marker => marker.id !== id ? marker : {
+    return state.map(marker => (marker.id !== id) ? marker : {
         ...marker,
         width: newW,
         height: (newH) ? newH : marker.height
     })
+}
+
+const editMarker = (state: MarkerData[], id: string, newLabel: string, newText: string, newTextSize: string) => {
+    return state.map(marker => (marker.id !== id) ? marker : {
+        ...marker,
+        label: newLabel,
+        text: newText,
+        textSize: newTextSize
+    })
+}
+
+const deleteMarker = (state: MarkerData[], id: string) => {
+    return state.filter(marker => marker.id !== id)
 }
 
 const clearMarkers = () => {
@@ -67,8 +82,10 @@ const resetMarkers = (state: MarkerData[]) => {;
 const markerReducer = (state: MarkerData[], action: MarkerActionType) => {
     switch(action.type) {
         case 'ADD_MARKER': return addMarker(state)
-        case 'SAVE_POSITION': return saveMarkerPosition(state, action.payload.id, action.payload.newX, action.payload.newY)
-        case 'SAVE_DIMENSIONS': return saveMarkerDimensions(state, action.payload.id, action.payload.newW)
+        case 'SAVE_MARKER_POSITION': return saveMarkerPosition(state, action.payload.id, action.payload.newX, action.payload.newY)
+        case 'SAVE_MARKER_DIMENSIONS': return saveMarkerDimensions(state, action.payload.id, action.payload.newW)
+        case 'EDIT_MARKER': return editMarker(state, action.payload.id, action.payload.label, action.payload.text, action.payload.textSize)
+        case 'DELETE_MARKER': return deleteMarker(state, action.payload.id)
         case 'CLEAR_MARKERS': return clearMarkers()
         case 'RESET_MARKERS': return resetMarkers(state)
         default: throw new Error(`Invalid dispatch action`)
@@ -81,6 +98,7 @@ const initialState = getArrayFromLocalStorage(DATA_KEY);
 //Context Provider
 export const MarkerContextProvider = ({children}: IContextProviderProps) => {
     const [markersState, markersDispatch] = useReducer(markerReducer, initialState);
+    console.log(markersState)
     useEffect(() => {
         localStorage.setItem(DATA_KEY, JSON.stringify(markersState))
     },[markersState])

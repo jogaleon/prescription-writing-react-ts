@@ -1,11 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useDebounce from "../../../../hooks/useDebounce";
+
 import { MarkerData } from "../../../../types/state/markerData";
+import { MarkerActionType } from "../../../../context/marker-context/MarkerContext";
 
 import './style.css';
 
 interface IMarkerEditorItemProps {
     marker: MarkerData
+    markersDispatch: React.Dispatch<MarkerActionType>
 }
 
 interface IInputState {
@@ -14,17 +17,26 @@ interface IInputState {
     textSize: string
 }
 
-const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = (props) => {
-    const [input, setInput] = useState({
-        label: '',
-        text: '',
-        textSize: ''
+const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = ({marker, markersDispatch}) => {
+    const [input, setInput] = useState<IInputState>({
+        label: marker.label,
+        text: marker.text,
+        textSize: marker.textSize
     })
+
     const debouncedInput = useDebounce(input);
+    useEffect(() => {
+        markersDispatch({type: 'EDIT_MARKER', payload: {
+            id: marker.id, 
+            label: debouncedInput.label, 
+            text: debouncedInput.text,
+            textSize: debouncedInput.textSize
+        }})
+    },[debouncedInput, marker.id, markersDispatch])
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(prevInput => {
-            console.log(e.target.name, e.target.value)
+            // console.log(e.target.name, e.target.value)
             return {
                 ...prevInput,
                 [e.target.name]: e.target.value
@@ -35,12 +47,12 @@ const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = (props
   return (
     <div className="MarkerEditorItem">
         <label htmlFor="input-label">Label: </label>
-        <input name="label" className="input-label" type="text" onChange={handleInputChange} />
+        <input type="text" name="label" className="input-label" value={input.label} onChange={handleInputChange} />
         <label htmlFor="input-text">Text: </label>
-        <input name="text" className="input-text" type="text" onChange={handleInputChange} />
+        <input type="text" name="text" className="input-text" value={input.text} onChange={handleInputChange} />
         <label htmlFor="input-text">Size: </label>
-        <input name="fontSize" className="input-text-size" type="number" onChange={handleInputChange} />
-        
+        <input type="number" name="textSize" className="input-text-size" value={input.textSize} onChange={handleInputChange} />
+        <button onClick={() => markersDispatch({type: 'DELETE_MARKER', payload: {id: marker.id}})}>Delete Marker</button>
     </div>
   );
 };

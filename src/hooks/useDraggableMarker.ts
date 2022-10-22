@@ -70,7 +70,7 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
   //Saving new position to state (x and y deps are intentionally omitted)
   useEffect(() => {
     if (isDragging) return
-    markersDispatch({type: 'SAVE_POSITION', payload: {
+    markersDispatch({type: 'SAVE_MARKER_POSITION', payload: {
       id: markerId,
       newX: x,
       newY: y

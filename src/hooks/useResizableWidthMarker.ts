@@ -58,7 +58,7 @@ const useResizeWidthMarker = (el: React.MutableRefObject<HTMLDivElement | null>,
     }, [el, width]);
 
     useEffect(() => {
-        markersDispatch({type: 'SAVE_DIMENSIONS', payload: {
+        markersDispatch({type: 'SAVE_MARKER_DIMENSIONS', payload: {
             id: markerId,
             newW: width,
         }})
