@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import throttle from "./utils/throttle";
+import throttle from "../global-utils/throttle";
 
 import { BoundaryBox } from './../types/boundaryBox';
 

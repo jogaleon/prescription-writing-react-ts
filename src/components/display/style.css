@@ -1,3 +1,7 @@
+.Display {
+    position: relative;
+}
+
 .display-canvas-container {
     position: absolute;
     width: 500px;
