@@ -7,7 +7,6 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
     (rawImageData: string) => Promise<void>
 ] => {
     const canvasRef = useRef<HTMLCanvasElement|null>(null);
-    console.log("canvas")
     
     const resizeCanvas = useCallback((width: number, height: number, scale?: number) => {
         const canvas = canvasRef.current;

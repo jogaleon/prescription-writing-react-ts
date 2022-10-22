@@ -1,9 +1,9 @@
-.canvas-container {
+.display-canvas-container {
     position: absolute;
     width: 500px;
     height: 500px;
 
-    left: 50px;
+    left: 100px;
     border: 2px black solid;
     margin: 0;
     padding: 0;

@@ -8,7 +8,7 @@ export interface IElementDataState {
     scale?: number
 }
 
-const useElementSize = <T extends HTMLElement>(initialWidth: number, initialHeight: number): [
+const useElement = <T extends HTMLElement>(initialWidth: number, initialHeight: number): [
     React.MutableRefObject<T|null>,
     IElementDataState,
     (newWidth: number, newHeight: number) => void
@@ -18,8 +18,8 @@ const useElementSize = <T extends HTMLElement>(initialWidth: number, initialHeig
     const [elementData, setElementData] = useState<IElementDataState>({
         positionX: 0,
         positionY: 0,
-        width: initialWidth, 
-        height: initialHeight, 
+        width: (initialWidth >= 0) ? initialWidth : 0, 
+        height: (initialHeight >= 0) ? initialHeight : 0, 
         scale: 1
     })
     
@@ -43,6 +43,7 @@ const useElementSize = <T extends HTMLElement>(initialWidth: number, initialHeig
         }))
     },[elementRef])
     
+    //Setting element width
     useEffect(() => {
         const element = elementRef.current
         if (!element) return;
@@ -50,9 +51,10 @@ const useElementSize = <T extends HTMLElement>(initialWidth: number, initialHeig
         element.style.width = `${elementData.width}px`;
         element.style.height = `${elementData.height}px`;
 
+        if (elementData.scale) element.style.transform = `scale(${elementData.scale})`;
     },[elementRef, elementData])
 
     return [elementRef, elementData, resizeElement]
 }
 
-export default useElementSize
+export default useElement

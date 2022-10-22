@@ -1,11 +1,8 @@
-import { useRef, memo } from 'react';
-
+import { useRef } from 'react';
 import useDraggableMarker from '../../../../hooks/useDraggableMarker';
 import useResizeWidthMarker from '../../../../hooks/useResizableWidthMarker';
 
-
-// import { DisplayData } from '../../../../types/state/displayData';
-import { IElementDataState } from '../../../../hooks/useElementSize';
+import { IElementDataState } from '../../../../hooks/useElement';
 import { MarkerData } from '../../../../types/state/markerData';
 
 import './style.css';

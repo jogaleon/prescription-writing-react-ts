@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext, Ref } from "react";
+import { useState, useEffect, useContext } from "react";
 import throttle from "./utils/throttle";
 
-import { MarkerData } from './../types/state/markerData';
 import { BoundaryBox } from './../types/boundaryBox';
 
 import MarkerContext, { MarkerContextType } from "../context/marker-context/MarkerContext";
@@ -60,7 +59,7 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
     };
   }, [el, boundaryBox, markersDispatch]);
 
-  //
+  //Set marker element position
   useEffect(() => {
     const marker = el.current
     if (!marker) return

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import Display from '../../components/display';
-import useElementSize from '../../hooks/useElementSize';
+import useElementSize from '../../hooks/useElement';
 
 interface IMainProps {
 }
