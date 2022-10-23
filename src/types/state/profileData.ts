@@ -1,7 +1,6 @@
 import MarkerData from "./markerData"
 import MedicineEntryData from "./medicineEntryData"
 
-
 type ProfileData = {
     id: string
     name: string
