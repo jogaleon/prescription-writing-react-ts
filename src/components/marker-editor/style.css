@@ -1,0 +1,9 @@
+.MarkerEditor {
+    padding: 10px;
+}
+
+.marker-editor-item-container {    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

@@ -1,17 +1,17 @@
 .Display {
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .display-canvas-container {
-    position: absolute;
+    position: relative;
     width: 500px;
     height: 500px;
 
-    left: 100px;
     border: 2px black solid;
     margin: 0;
     padding: 0;
-    /* box-sizing: border-box; */
 }
 
 .display-canvas {

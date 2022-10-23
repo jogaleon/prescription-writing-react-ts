@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import MarkerContext, { MarkerContextType } from '../../context/marker-context/MarkerContext';
 import MarkerEditorItem from './components/marker-editor-item';
 
+import './style.css';
+
 interface IMarkerEditorProps {
 }
 
@@ -16,7 +18,13 @@ const MarkerEditor: React.FunctionComponent<IMarkerEditorProps> = (props) => {
     })
     return (
         <div className="MarkerEditor">
-            {markerEditorItemElements}
+            <h1>Marker Editor</h1>
+            <button onClick={() => markersDispatch({type:'ADD_MARKER'})}>Add Marker</button>
+            <button onClick={() => markersDispatch({type: 'CLEAR_MARKERS'})}>Clear Markers</button>
+            <button onClick={() => markersDispatch({type: 'RESET_MARKERS'})}>Reset Markers</button>
+            <div className="marker-editor-item-container">
+                {markerEditorItemElements}
+            </div>
         </div>
     );
 };

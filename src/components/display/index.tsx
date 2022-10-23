@@ -86,19 +86,18 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
 
     return (
         <div className='Display'>
-            <input 
-                type="file"
-                accept='image/png, image/jpeg'
-                onChange={handleInputFile}
-            />
+            <div className='display-controls'>
+                <input 
+                    type="file"
+                    accept='image/png, image/jpeg'
+                    onChange={handleInputFile}
+                />
+                <button onClick={() => writeAllText()}>Write Text</button>
+            </div>
             <div className='display-canvas-container' ref={containerRef}>
                 {markerElements}
                 <canvas className='display-canvas' ref={canvasRef} />
             </div>
-            <button onClick={() => writeAllText()}>Write Text</button>
-            <button onClick={() => markersDispatch({type:'ADD_MARKER'})}>Add Marker</button>
-            <button onClick={() => markersDispatch({type: 'CLEAR_MARKERS'})}>Clear Markers</button>
-            <button onClick={() => markersDispatch({type: 'RESET_MARKERS'})}>Reset Markers</button>
         </div>
     );
 };

@@ -30,13 +30,13 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
         ctx.drawImage(imageElement, 0,0);
     },[canvasRef]);
 
-    const drawTextToCanvas = useCallback((markerData: MarkerData[]) => {
-        const canvas = canvasRef.current;
-        if (!canvas) return
+    // const drawTextToCanvas = useCallback((markerData: MarkerData[]) => {
+    //     const canvas = canvasRef.current;
+    //     if (!canvas) return
         
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;    
-    },[canvasRef])
+    //     const ctx = canvas.getContext('2d');
+    //     if (!ctx) return;    
+    // },[canvasRef])
 
     const writeText = (x: number, y: number, text: string, size: number, color: string, scale: number, maxWidth?: number) => {
         const canvas = canvasRef.current;

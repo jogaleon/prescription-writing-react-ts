@@ -25,7 +25,7 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
         setIsDragging(true);
 
         const target = e.target as HTMLDivElement
-        if (!target || !Array.from(target.classList).includes('Marker')) return 
+        if (!target || Array.from(target.classList).includes('marker-resize-handle')) return 
 
         const offsetX = e.clientX - target.getBoundingClientRect().left;
         const offsetY = e.clientY - target.getBoundingClientRect().top;
