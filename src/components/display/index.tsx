@@ -27,7 +27,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
     const [imageData, setImageData] = useState<ImageData|null>(null);
 
-    const [canvasRef, resizeCanvas, drawImageToCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
+    const [canvasRef, resizeCanvas, drawImageToCanvas, writeText] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
 
     const handleInputFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +39,19 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             nativeWidth: image.width,
             nativeHeight: image.height,
             scaleFactor: calculateScale(MAX_WIDTH, image.width, 3)
+        })
+    }
+
+    const writeAllText = () => {
+        markersState.forEach(marker => {
+            writeText(
+                marker.x,
+                marker.y,
+                marker.text,
+                parseInt(marker.textSize),
+                'black',
+                (imageData) ? imageData.scaleFactor : 1
+            )
         })
     }
 
@@ -82,6 +95,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 {markerElements}
                 <canvas className='display-canvas' ref={canvasRef} />
             </div>
+            <button onClick={() => writeAllText()}>Write Text</button>
             <button onClick={() => markersDispatch({type:'ADD_MARKER'})}>Add Marker</button>
             <button onClick={() => markersDispatch({type: 'CLEAR_MARKERS'})}>Clear Markers</button>
             <button onClick={() => markersDispatch({type: 'RESET_MARKERS'})}>Reset Markers</button>
