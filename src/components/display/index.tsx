@@ -86,6 +86,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
 
     return (
         <div className='Display'>
+            <h1>Display</h1>
             <div className='display-controls'>
                 <input 
                     type="file"

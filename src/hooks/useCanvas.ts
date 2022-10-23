@@ -1,4 +1,4 @@
-import { MarkerData } from './../types/state/markerData';
+import MarkerData from './../types/state/markerData';
 import dataToImage from '../components/display/utils/dataToImage';
 
 import { useRef, useCallback, useEffect } from 'react';

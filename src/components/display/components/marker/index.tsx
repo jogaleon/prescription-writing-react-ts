@@ -3,7 +3,7 @@ import useDraggableMarker from '../../../../hooks/useDraggableMarker';
 import useResizeWidthMarker from '../../../../hooks/useResizableWidthMarker';
 
 import { IElementDataState } from '../../../../hooks/useElement';
-import { MarkerData } from '../../../../types/state/markerData';
+import MarkerData from '../../../../types/state/markerData';
 
 import './style.css';
 

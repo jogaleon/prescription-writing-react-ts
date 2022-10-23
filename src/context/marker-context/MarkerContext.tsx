@@ -2,7 +2,7 @@ import { IContextProviderProps } from '../../types/context/contextProviderProps'
 import { createContext, useEffect, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 
-import { MarkerData } from '../../types/state/markerData';
+import MarkerData from '../../types/state/markerData';
 import getArrayFromLocalStorage from '../utils/getArrayFromLocalStorage';
 import MARKER_SETTINGS from '../../settings/markerSettings';
 
@@ -79,7 +79,7 @@ const resetMarkers = (state: MarkerData[]) => {;
     }))
 }
 
-const markerReducer = (state: MarkerData[], action: MarkerActionType) => {
+const markersReducer = (state: MarkerData[], action: MarkerActionType) => {
     switch(action.type) {
         case 'ADD_MARKER': return addMarker(state)
         case 'SAVE_MARKER_POSITION': return saveMarkerPosition(state, action.payload.id, action.payload.newX, action.payload.newY)
@@ -93,11 +93,11 @@ const markerReducer = (state: MarkerData[], action: MarkerActionType) => {
 }
 
 const MarkerContext = createContext<MarkerContextType | null>(null);
-const initialState = getArrayFromLocalStorage(DATA_KEY);
+const initialState = getArrayFromLocalStorage(DATA_KEY) as MarkerData[]
 
 //Context Provider
 export const MarkerContextProvider = ({children}: IContextProviderProps) => {
-    const [markersState, markersDispatch] = useReducer(markerReducer, initialState);
+    const [markersState, markersDispatch] = useReducer(markersReducer, initialState);
     console.log(markersState)
     useEffect(() => {
         localStorage.setItem(DATA_KEY, JSON.stringify(markersState))

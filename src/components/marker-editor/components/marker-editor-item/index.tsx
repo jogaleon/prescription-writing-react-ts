@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useDebounce from "../../../../hooks/useDebounce";
 
-import { MarkerData } from "../../../../types/state/markerData";
+import MarkerData from "../../../../types/state/markerData";
 import { MarkerActionType } from "../../../../context/marker-context/MarkerContext";
 
 import './style.css';
