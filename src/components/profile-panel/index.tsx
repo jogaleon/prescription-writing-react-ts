@@ -5,6 +5,7 @@ import ProfileContext, { ProfileContextType } from '../../context/profile-contex
 import Modal from '../modal';
 import ProfileEditor from '../profile-editor';
 import EditProfile from '../profile-editor/components/edit-profile';
+import SaveButton from './components/save-button';
 
 import './style.css';
 
@@ -12,7 +13,7 @@ interface IProfilePanelProps {
 }
 
 const ProfilePanel: React.FunctionComponent<IProfilePanelProps> = (props) => {
-  const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
+  const {profilesState, profilesDispatch, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
   const [profileEditorModalOpen, setProfileEditorModalOpen] = useState(false);
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 
@@ -30,9 +31,13 @@ const ProfilePanel: React.FunctionComponent<IProfilePanelProps> = (props) => {
           <EditProfile profileId={activeProfileId} setModalOpen={setEditProfileModalOpen} />
         </Modal>
 
-        
         <button onClick={() => setProfileEditorModalOpen(true)}>Open Profile Editor</button>
-        {activeProfile && <button onClick={() => setEditProfileModalOpen(true)}>Edit Profile</button>} 
+        {activeProfile && 
+          <>
+            <button onClick={() => setEditProfileModalOpen(true)}>Edit Profile</button>
+            <SaveButton />
+          </>
+        } 
     </div>
   );
 };

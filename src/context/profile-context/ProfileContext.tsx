@@ -71,6 +71,7 @@ const initialProfilesState: ProfileData[] = getArrayFromLocalStorage(DATA_KEY)
 export const ProfileContextProvider = ({children}: IContextProviderProps) => {
     const [profilesState, profilesDispatch] = useReducer(profilesReducer, initialProfilesState)
     const [activeProfileId, setActiveProfileId] = useState('')
+    console.log(profilesState)
 
     useEffect(() => {
         localStorage.setItem(DATA_KEY, JSON.stringify(profilesState))
