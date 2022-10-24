@@ -29,11 +29,10 @@ const ProfileEditor: React.FunctionComponent<IProfileEditorProps> = (props) => {
       <h1>Profile Editor</h1>
 
       <Modal modalOpen={editProfileModalOpen} setModalOpen={setEditProfileModalOpen}>
-        <EditProfile />
+        <EditProfile setModalOpen={setEditProfileModalOpen}/>
       </Modal>
 
-      <button onClick={() => profilesDispatch({type: 'CREATE_NEW_PROFILE'})}>Create new profile</button>
-      <button onClick={() => setEditProfileModalOpen(true)}>Edit Profile</button>
+      <button onClick={() => setEditProfileModalOpen(true)}>Create new profile</button>
       
       <div className='profile-editor-item-container'>
         {profileElements}

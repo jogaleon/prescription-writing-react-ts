@@ -13,5 +13,16 @@ type ProfileData = {
     printWidth: number
     printHeight: number
 }
+export type ProfileDataChunk = {
+    id?: string
+    name?: string
+    isActive?: boolean
+    imageData?: string
+    markers?: MarkerData[]
+    prescriptionList?: MedicineEntryData[]
+    textSettings?: textSettings
+    printWidth?: number
+    printHeight?: number
+}
 
 export default ProfileData
