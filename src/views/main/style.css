@@ -1,8 +1,8 @@
 .Main {
     padding: 10px;
     display: grid;
-    grid-template-rows: 100px 1fr 1fr;
-    grid-template-columns: 600px 1000px;
+    grid-template-rows: 200px 1fr 1fr;
+    grid-template-columns: 800px 1000px;
     grid-template-areas:
         "profile display"
         "marker display"
@@ -10,6 +10,7 @@
     ;
     gap: 10px;
 }
+
 .ProfilePanel {
     grid-area: profile;
 }

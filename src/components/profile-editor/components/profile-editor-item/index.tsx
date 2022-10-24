@@ -13,7 +13,7 @@ interface IProfileEditorItemProps {
 const ProfileEditorItem: React.FunctionComponent<IProfileEditorItemProps> = ({id, name, isActive, profilesDispatch, setActiveProfileId}) => {
   return (
     <div className="ProfileEditorItem">
-      <p className="profile-name">Profile</p>
+      <p className="profile-name">{name}</p>
       {!isActive && <button onClick={() => setActiveProfileId(id)}>Load</button>}
       <button onClick={() => profilesDispatch({type:'DELETE_PROFILE', payload: {id: id}})}>Delete</button>
     </div>

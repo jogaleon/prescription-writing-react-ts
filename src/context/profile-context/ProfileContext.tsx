@@ -43,7 +43,10 @@ const addProfile = (state: ProfileData[], newProfile: ProfileData) => {
 }
 
 const editProfile = (state: ProfileData[], id: string, profileDataChunk: ProfileDataChunk) => {
-    return state.map(profile => (profile.id !== id) ? profile : {...profile, profileDataChunk})
+    return state.map(profile => {
+        // const combinedProfile = {...profile, ...profileDataChunk}
+        return (profile.id !== id) ? profile : {...profile, ...profileDataChunk}
+    })
 }
 
 const deleteProfile = (state: ProfileData[], deleteId: string) => {
@@ -61,7 +64,7 @@ const profilesReducer = (state: ProfileData[], action: ProfileActionType) => {
 }
 
 const ProfileContext = createContext<ProfileContextType | null>(null);
-const initialState = [] as ProfileData[]
+const initialState: ProfileData[] = []
 
 //Context Provider
 export const ProfileContextProvider = ({children}: IContextProviderProps) => {

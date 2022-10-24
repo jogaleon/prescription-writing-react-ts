@@ -16,7 +16,7 @@ type ProfileData = {
 export type ProfileDataChunk = {
     id?: string
     name?: string
-    imageData?: string
+    imageData?: ImageData | null
     markers?: MarkerData[]
     prescriptionList?: MedicineEntryData[]
     textSettings?: textSettings

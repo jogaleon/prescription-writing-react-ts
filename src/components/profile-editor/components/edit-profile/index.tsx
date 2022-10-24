@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
 
@@ -11,10 +11,11 @@ interface IEditProfileProps {
 
 const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, setModalOpen}) => {
     const {profilesState, profilesDispatch} = useContext(ProfileContext) as ProfileContextType
+    const selectedProfile = useMemo(() => profilesState.find(profile => profile.id === profileId),[profilesState, profileId])
     const [input, setInput] = useState({
-        name: '',
-        printWidth: 0,
-        printHeight: 0
+        name: selectedProfile?.name || '',
+        printWidth: selectedProfile?.printWidth || 0,
+        printHeight: selectedProfile?.printHeight || 0
     })
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,20 +28,28 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
     }
 
     const handleButtonClick = () => {
-        if (!profileId) profilesDispatch({type: 'ADD_PROFILE', payload: {
-            id: uuid(),
-            name: input.name,
-            imageData: null,
-            markers: [],
-            prescriptionList: [],
-            textSettings: {
-                globalTextSize: 12,
-                color: 'black',
-                fontWeight: 500,        
-            },
-            printWidth: input.printWidth,
-            printHeight: input.printHeight,
-        }})
+        if (!profileId) {
+            profilesDispatch({type: 'ADD_PROFILE', payload: {
+                id: uuid(),
+                name: input.name,
+                imageData: null,
+                markers: [],
+                prescriptionList: [],
+                textSettings: {
+                    globalTextSize: 12,
+                    color: 'black',
+                    fontWeight: 500,        
+                },
+                printWidth: input.printWidth,
+                printHeight: input.printHeight,
+            }})
+        } else {
+            profilesDispatch({type: 'EDIT_PROFILE', payload: {id: profileId, profileDataChunk: {
+                name: input.name,
+                printWidth: input.printWidth,
+                printHeight: input.printHeight
+            }}})
+        }
         
         setModalOpen(false)
     }
@@ -55,7 +64,7 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
         <input type="number" name="printWidth" value={input.printWidth} onChange={handleInputChange} /><br />
         <label htmlFor="printHeight">Height: </label>
         <input type="number" name="printHeight" value={input.printHeight} onChange={handleInputChange} /><br />
-        <button onClick={handleButtonClick}>Create New Profile</button>
+        <button onClick={handleButtonClick}>Save Profile</button>
     </div>
     );
 };
