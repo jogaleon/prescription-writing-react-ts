@@ -25,8 +25,7 @@ const createNewProfile = (state: ProfileData[]) => {
     return [...state, {
         id: uuid(),
         name: 'profile',
-        isActive: false,
-        imageData: '',
+        imageData: null,
         markers: [],
         prescriptionList: [],
         textSettings: {

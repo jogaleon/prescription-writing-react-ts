@@ -10,33 +10,28 @@ export type ImageActionType =
 ;
 
 export type ImageContextType = {
-    imageState: ImageData
+    imageState: ImageData | null
     imageDispatch: React.Dispatch<ImageActionType>
 }
 
 //Reducer
-const saveImageData = (state: ImageData, newImageData: ImageData) => {
+const saveImageData = (newImageData: ImageData) => {
     return newImageData
 }
 
-const imageReducer = (state: ImageData, action: ImageActionType) => {
+const imageReducer = (state: ImageData|null, action: ImageActionType) => {
     switch(action.type) {
-        case 'SAVE_IMAGE_DATA': return saveImageData(state, action.payload)
+        case 'SAVE_IMAGE_DATA': return saveImageData(action.payload)
         default: throw new Error(`Invalid dispatch action`)
     }
 }
 
 const ImageContext = createContext<ImageContextType | null>(null);
-const initialState: ImageData = {
-    rawData: '',
-    nativeWidth: 0,
-    nativeHeight: 0,
-    scaleFactor: 1,
-}
+const initialState: ImageData | null = null
 
 //Context Provider
 export const ImageContextProvider = ({children}: IContextProviderProps) => {
-    const [imageState, imageDispatch] = useReducer(imageReducer, initialState)
+    const [imageState, imageDispatch] = useReducer<React.Reducer<ImageData | null, ImageActionType>>(imageReducer, initialState)
     
     useEffect(() => {
     },[])

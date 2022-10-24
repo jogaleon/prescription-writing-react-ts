@@ -1,3 +1,4 @@
+import ImageData from "./imageData"
 import MarkerData from "./markerData"
 import MedicineEntryData from "./medicineEntryData"
 import textSettings from "./textSettings"
@@ -5,8 +6,7 @@ import textSettings from "./textSettings"
 type ProfileData = {
     id: string
     name: string
-    isActive: boolean
-    imageData: string
+    imageData: ImageData | null
     markers: MarkerData[]
     prescriptionList: MedicineEntryData[]
     textSettings: textSettings
@@ -16,7 +16,6 @@ type ProfileData = {
 export type ProfileDataChunk = {
     id?: string
     name?: string
-    isActive?: boolean
     imageData?: string
     markers?: MarkerData[]
     prescriptionList?: MedicineEntryData[]

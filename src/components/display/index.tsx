@@ -61,7 +61,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     useEffect(() => {
         const canvas = canvasRef.current;
         const container = containerRef.current;
-        if (!canvas || !container || !imageState.rawData) return;
+        if (!imageState || !canvas || !container) return;
         markersDispatch({type:'RESET_MARKERS'});
         const fitDisplayToImage = (imageData: ImageData) => {
             const w = imageData.nativeWidth;

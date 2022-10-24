@@ -14,7 +14,8 @@ const ProfileEditor: React.FunctionComponent<IProfileEditorProps> = (props) => {
   
   const profileElements = profilesState.map(profile => {
     return (
-      <ProfileEditorItem 
+      <ProfileEditorItem
+        key={profile.id} 
         id={profile.id}
         name={profile.name}
         isActive={profile.id === activeProfileId}

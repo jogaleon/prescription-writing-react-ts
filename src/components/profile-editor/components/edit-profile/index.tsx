@@ -1,6 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react';
+import { v4 as uuid } from 'uuid';
+
+
 import ProfileContext, { ProfileContextType } from "../../../../context/profile-context/ProfileContext";
-import useDebounce from "../../../../hooks/useDebounce";
 
 interface IEditProfileProps {
     profileId?: string
@@ -25,7 +27,21 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
     }
 
     const handleButtonClick = () => {
-        profilesDispatch({type: 'CREATE_NEW_PROFILE'})
+        if (!profileId) profilesDispatch({type: 'ADD_PROFILE', payload: {
+            id: uuid(),
+            name: input.name,
+            imageData: null,
+            markers: [],
+            prescriptionList: [],
+            textSettings: {
+                globalTextSize: 12,
+                color: 'black',
+                fontWeight: 500,        
+            },
+            printWidth: input.printWidth,
+            printHeight: input.printHeight,
+        }})
+        
         setModalOpen(false)
     }
   
