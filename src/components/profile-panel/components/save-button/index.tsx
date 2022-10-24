@@ -22,8 +22,9 @@ const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
         }
         profilesDispatch({type: 'EDIT_PROFILE', payload: {id: activeProfileId, profileDataChunk: newDataChunk}})
     }
+    
     return (
-        <button className="SaveButton" onClick={buttonClickHandler} >Save Profile</button>
+        <button className="SaveButton" onClick={buttonClickHandler}>Save Profile</button>
     );
 };
 
