@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import useElement from '../../hooks/useElement';
 import useCanvas from '../../hooks/useCanvas';
 

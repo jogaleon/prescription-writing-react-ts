@@ -98,7 +98,7 @@ const initialState = getArrayFromLocalStorage(DATA_KEY) as MarkerData[]
 //Context Provider
 export const MarkerContextProvider = ({children}: IContextProviderProps) => {
     const [markersState, markersDispatch] = useReducer(markersReducer, initialState);
-    console.log(markersState)
+    
     useEffect(() => {
         localStorage.setItem(DATA_KEY, JSON.stringify(markersState))
     },[markersState])
