@@ -1,7 +1,7 @@
-type textSettings = {
+type TextSettings = {
     globalTextSize: number
     color: string
     fontWeight: number
 }
 
-export default textSettings
+export default TextSettings
