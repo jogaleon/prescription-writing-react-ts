@@ -109,9 +109,9 @@ export const MarkerContextProvider = ({children}: IContextProviderProps) => {
     const [markersState, markersDispatch] = useReducer(markersReducer, initialState);
     
     useEffect(() => {
-        const markers = profilesState.find(profile => profile.id === activeProfileId)?.markers
-        if (!markers) return
-        markersDispatch({type:'LOAD_MARKERS', payload: markers})
+        const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
+        if (!activeProfile?.markers) return
+        markersDispatch({type:'LOAD_MARKERS', payload: activeProfile.markers})
     },[activeProfileId])
 
     return (

@@ -2,11 +2,13 @@ import MarkerData from './../types/state/markerData';
 import dataToImage from '../components/display/utils/dataToImage';
 
 import { useRef, useCallback, useEffect } from 'react';
+import { isContext } from 'vm';
 const useCanvas = (initialWidth: number, initialHeight: number):[
     React.MutableRefObject<HTMLCanvasElement | null>,
     (width: number, height: number, scale?: number) => void,
     (rawImageData: string) => Promise<void>,
-    (x: number, y: number, text: string, size: number, color: string, scale: number, maxWidth?: number) => void
+    (x: number, y: number, text: string, size: number, color: string, scale: number, maxWidth?: number) => void,
+    () => void
 ] => {
     const canvasRef = useRef<HTMLCanvasElement|null>(null);
     
@@ -29,6 +31,17 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
         const imageElement = await dataToImage(rawImageData);
         ctx.drawImage(imageElement, 0,0);
     },[canvasRef]);
+
+    const clearCanvas = useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return
+        
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        
+    },[canvasRef])
 
     // const drawTextToCanvas = useCallback((markerData: MarkerData[]) => {
     //     const canvas = canvasRef.current;
@@ -56,7 +69,7 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
     },[initialWidth, initialHeight, resizeCanvas])
 
     
-    return [canvasRef, resizeCanvas, drawImageToCanvas, writeText]
+    return [canvasRef, resizeCanvas, drawImageToCanvas, writeText, clearCanvas]
 }
 
 export default useCanvas

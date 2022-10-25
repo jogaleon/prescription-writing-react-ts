@@ -29,7 +29,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
     // const [imageData, setImageData] = useState<ImageData|null>(null);
 
-    const [canvasRef, resizeCanvas, drawImageToCanvas, writeText] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
+    const [canvasRef, resizeCanvas, drawImageToCanvas, writeText, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
 
     const handleInputFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,8 +61,9 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     useEffect(() => {
         const canvas = canvasRef.current;
         const container = containerRef.current;
-        if (!imageState || !canvas || !container) return;
+        if (!canvas || !container) return;
         markersDispatch({type:'RESET_MARKERS'});
+
         const fitDisplayToImage = (imageData: ImageData) => {
             const w = imageData.nativeWidth;
             const h = imageData.nativeHeight;
@@ -72,8 +73,19 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             resizeCanvas(w, h, s);
         }
 
-        fitDisplayToImage(imageState)
-        drawImageToCanvas(imageState.rawData);
+        const resetDisplay = () => {
+            resizeContainer(INITIAL_WIDTH, INITIAL_HEIGHT);
+            resizeCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);            
+        }
+        
+        if (imageState) {
+            fitDisplayToImage(imageState)
+            drawImageToCanvas(imageState.rawData);
+        } else {
+            console.log("canvas cleared")
+            clearCanvas()
+            resetDisplay()
+        }
 
     },[imageState, canvasRef, containerRef])
 
@@ -96,6 +108,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                     onChange={handleInputFile}
                 />
                 <button onClick={() => writeAllText()}>Write Text</button>
+                <button onClick={() => clearCanvas()}>Clear canvas</button>
             </div>
             <div className='display-canvas-container' ref={containerRef}>
                 {markerElements}
