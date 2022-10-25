@@ -82,7 +82,6 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             fitDisplayToImage(imageState)
             drawImageToCanvas(imageState.rawData);
         } else {
-            console.log("canvas cleared")
             clearCanvas()
             resetDisplay()
         }
@@ -108,7 +107,6 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                     onChange={handleInputFile}
                 />
                 <button onClick={() => writeAllText()}>Write Text</button>
-                <button onClick={() => clearCanvas()}>Clear canvas</button>
             </div>
             <div className='display-canvas-container' ref={containerRef}>
                 {markerElements}

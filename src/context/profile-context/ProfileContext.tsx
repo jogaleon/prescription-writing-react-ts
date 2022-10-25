@@ -66,12 +66,13 @@ const profilesReducer = (state: ProfileData[], action: ProfileActionType) => {
 }
 
 const ProfileContext = createContext<ProfileContextType | null>(null);
-const initialProfilesState: ProfileData[] = getArrayFromLocalStorage(PROFILES_DATA_KEY)
+const initialProfilesState: ProfileData[] = getArrayFromLocalStorage(PROFILES_DATA_KEY);
+const initialActiveProfileIdState: string = localStorage.getItem(ACTIVE_PROFILE_ID_KEY) || '';
 
 //Context Provider
 export const ProfileContextProvider = ({children}: IContextProviderProps) => {
     const [profilesState, profilesDispatch] = useReducer(profilesReducer, initialProfilesState)
-    const [activeProfileId, setActiveProfileId] = useState('')
+    const [activeProfileId, setActiveProfileId] = useState(initialActiveProfileIdState)
     // console.log(profilesState)
     // console.log(activeProfileId)
 
