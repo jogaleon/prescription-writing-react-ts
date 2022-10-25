@@ -44,4 +44,3 @@ export const ImageContextProvider = ({children}: IContextProviderProps) => {
 }
 
 export default ImageContext;
-export {}

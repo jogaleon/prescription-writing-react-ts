@@ -6,7 +6,8 @@ import ProfileData, { ProfileDataChunk } from '../../types/state/profileData';
 import getArrayFromLocalStorage from '../utils/getArrayFromLocalStorage';
 import MARKER_SETTINGS from '../../settings/markerSettings';
 
-const DATA_KEY = 'PROFILES';
+const PROFILES_DATA_KEY = 'PROFILES';
+const ACTIVE_PROFILE_ID_KEY = 'ACTIVE_PROFILE_ID';
 
 export type ProfileActionType = 
     {type: 'CREATE_NEW_PROFILE'} |
@@ -65,7 +66,7 @@ const profilesReducer = (state: ProfileData[], action: ProfileActionType) => {
 }
 
 const ProfileContext = createContext<ProfileContextType | null>(null);
-const initialProfilesState: ProfileData[] = getArrayFromLocalStorage(DATA_KEY)
+const initialProfilesState: ProfileData[] = getArrayFromLocalStorage(PROFILES_DATA_KEY)
 
 //Context Provider
 export const ProfileContextProvider = ({children}: IContextProviderProps) => {
@@ -74,8 +75,12 @@ export const ProfileContextProvider = ({children}: IContextProviderProps) => {
     console.log(profilesState)
 
     useEffect(() => {
-        localStorage.setItem(DATA_KEY, JSON.stringify(profilesState))
+        localStorage.setItem(PROFILES_DATA_KEY, JSON.stringify(profilesState))
     },[profilesState])
+
+    useEffect(() => {
+        localStorage.setItem(ACTIVE_PROFILE_ID_KEY, activeProfileId)
+    },[activeProfileId])
 
     return (
         <ProfileContext.Provider value={{

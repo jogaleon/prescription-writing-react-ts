@@ -1,7 +1,7 @@
 import ImageData from "./imageData"
 import MarkerData from "./markerData"
 import MedicineEntryData from "./medicineEntryData"
-import textSettings from "./textSettings"
+import TextSettings from "./textSettings"
 
 type ProfileData = {
     id: string
@@ -9,7 +9,7 @@ type ProfileData = {
     imageData: ImageData | null
     markers: MarkerData[]
     prescriptionList: MedicineEntryData[]
-    textSettings: textSettings
+    textSettings: TextSettings | null
     printWidth: number
     printHeight: number
 }
@@ -19,7 +19,7 @@ export type ProfileDataChunk = {
     imageData?: ImageData | null
     markers?: MarkerData[]
     prescriptionList?: MedicineEntryData[]
-    textSettings?: textSettings
+    textSettings?: TextSettings | null
     printWidth?: number
     printHeight?: number
 }
