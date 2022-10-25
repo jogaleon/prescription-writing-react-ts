@@ -36,9 +36,9 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
                 markers: [],
                 prescriptionList: [],
                 textSettings: {
-                    globalTextSize: 12,
-                    color: 'black',
-                    fontWeight: 500,        
+                    globalTextSize: '12',
+                    color: '#000000',
+                    fontWeight: 'normal',        
                 },
                 printWidth: input.printWidth,
                 printHeight: input.printHeight,

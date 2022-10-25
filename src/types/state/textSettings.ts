@@ -1,7 +1,7 @@
 type TextSettings = {
-    globalTextSize: number
+    globalTextSize: string
     color: string
-    fontWeight: number
+    fontWeight: string
 }
 
 export default TextSettings

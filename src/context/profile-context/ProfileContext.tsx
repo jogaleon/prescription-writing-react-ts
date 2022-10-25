@@ -32,9 +32,9 @@ const createNewProfile = (state: ProfileData[]) => {
         markers: [],
         prescriptionList: [],
         textSettings: {
-            globalTextSize: 12,
+            globalTextSize: '#000000',
             color: 'black',
-            fontWeight: 500,        
+            fontWeight: 'normal',        
         },
         printWidth: 0,
         printHeight: 0

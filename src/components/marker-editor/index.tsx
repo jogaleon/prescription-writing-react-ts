@@ -3,6 +3,7 @@ import MarkerContext, { MarkerContextType } from '../../context/marker-context/M
 import MarkerEditorItem from './components/marker-editor-item';
 
 import './style.css';
+import TextSettingsControls from './text-settings-controls';
 
 interface IMarkerEditorProps {
 }
@@ -19,6 +20,7 @@ const MarkerEditor: React.FunctionComponent<IMarkerEditorProps> = (props) => {
     return (
         <div className="MarkerEditor">
             <h1>Marker Editor</h1>
+            <TextSettingsControls />
             <button onClick={() => markersDispatch({type:'ADD_MARKER'})}>Add Marker</button>
             <button onClick={() => markersDispatch({type: 'CLEAR_MARKERS'})}>Clear Markers</button>
             <button onClick={() => markersDispatch({type: 'RESET_MARKERS'})}>Reset Markers</button>
