@@ -7,7 +7,7 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
     React.MutableRefObject<HTMLCanvasElement | null>,
     (width: number, height: number, scale?: number) => void,
     (rawImageData: string) => Promise<void>,
-    (x: number, y: number, text: string, size: number, color: string, scale: number, maxWidth?: number) => void,
+    (x: number, y: number, text: string, size: number, color: string, weight: string, scale: number, maxWidth?: number) => void,
     () => void
 ] => {
     const canvasRef = useRef<HTMLCanvasElement|null>(null);
@@ -51,7 +51,7 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
     //     if (!ctx) return;    
     // },[canvasRef])
 
-    const writeText = (x: number, y: number, text: string, size: number, color: string, scale: number, maxWidth?: number) => {
+    const writeText = (x: number, y: number, text: string, size: number, color: string, weight: string, scale: number, maxWidth?: number) => {
         const canvas = canvasRef.current;
         if (!canvas) return
         
@@ -60,7 +60,8 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
         ctx.strokeStyle = color;
         ctx.fillStyle = color;
         ctx.textBaseline = 'top';
-        ctx.font = `${size / scale}px Arial`;
+        ctx.font = `${(weight === 'bold') ? 'bold ' : ''}${size / scale}px Arial`;
+        console.log(ctx.font)
         ctx.fillText (text, x / scale, y / scale);
     }
 

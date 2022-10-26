@@ -14,6 +14,7 @@ import MarkerContext, { MarkerContextType } from '../../context/marker-context/M
 
 import './style.css'
 import ImageContext, { ImageContextType } from '../../context/image-context/ImageContext';
+import TextSettingsContext, { TextSettingsContextType } from '../../context/text-settings-context/TextSettingsContext';
 
 interface IDisplayProps {
     width: number
@@ -26,6 +27,7 @@ const INITIAL_HEIGHT = 300;
 
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
+    const {textSettingsState, textSettingsDispatch} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
     // const [imageData, setImageData] = useState<ImageData|null>(null);
 
@@ -51,7 +53,8 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 marker.y,
                 marker.text,
                 parseInt(marker.textSize),
-                'black',
+                textSettingsState.color,
+                textSettingsState.fontWeight,
                 (imageState) ? imageState.scaleFactor : 1
             )
         })

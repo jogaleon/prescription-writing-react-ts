@@ -37,7 +37,6 @@ const TextSettingsControls: React.FunctionComponent<ITextSettingsControlsProps> 
         <input type="color" name="color" value={input.color} onChange={handleInputChange} />
         <label htmlFor="fontWeight">Font Weight: </label>
         <select name="fontWeight" value={input.fontWeight} onChange={handleInputChange}>
-            <option value="light">Light</option>
             <option value="normal">Normal</option>
             <option value="bold">Bold</option>
         </select>
