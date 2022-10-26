@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import MarkerContext, { MarkerContextType } from '../../context/marker-context/MarkerContext';
+import TextSettingsContext, { TextSettingsContextType } from '../../context/text-settings-context/TextSettingsContext';
 import MarkerEditorItem from './components/marker-editor-item';
 
 import './style.css';
@@ -10,11 +11,14 @@ interface IMarkerEditorProps {
 
 const MarkerEditor: React.FunctionComponent<IMarkerEditorProps> = (props) => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
+    const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType;
+    
     const markerEditorItemElements = markersState.map(marker => {
         return <MarkerEditorItem
             key={marker.id} 
             marker={marker}
             markersDispatch={markersDispatch}
+            globalTextSize={textSettingsState.globalTextSize}
         />
     })
     return (

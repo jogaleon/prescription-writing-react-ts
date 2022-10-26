@@ -29,7 +29,7 @@ export type MarkerContextType = {
 const addMarker = (state: MarkerData[]) => {
     return [...state, {
         id: uuid(),
-        label: 'Marker',
+        label: `Marker${state.length + 1}`,
         text: '',
         textSize: MARKER_SETTINGS.DEFAULT_TEXT_SIZE,
         x: 0,

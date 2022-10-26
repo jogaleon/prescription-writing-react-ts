@@ -2,3 +2,12 @@
     border: thin black solid;
     padding: 5px;
 }
+.input-label {
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.input-text-size {
+    width: 50px;
+}

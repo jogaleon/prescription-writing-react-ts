@@ -4,6 +4,8 @@ import useDebounce from "../../../hooks/useDebounce";
 import TextSettingsContext, { TextSettingsContextType } from "../../../context/text-settings-context/TextSettingsContext";
 import TextSettings from "../../../types/state/textSettings";
 
+import './style.css';
+
 interface ITextSettingsControlsProps {
 }
 
@@ -30,7 +32,7 @@ const TextSettingsControls: React.FunctionComponent<ITextSettingsControlsProps> 
     }
   return (
     <div className="TextSettingsControls">
-        <h2>Text Settings Controls</h2>
+        {/* <h2>Text Settings Controls</h2> */}
         <label htmlFor="globalTextSize">Global Text Size:</label>
         <input type="number" name="globalTextSize" value={input.globalTextSize} onChange={handleInputChange} />
         <label htmlFor="color">Color:</label>
