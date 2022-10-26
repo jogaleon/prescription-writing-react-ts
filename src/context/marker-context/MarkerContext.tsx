@@ -3,11 +3,8 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 
 import MarkerData from '../../types/state/markerData';
-import getArrayFromLocalStorage from '../utils/getArrayFromLocalStorage';
 import MARKER_SETTINGS from '../../settings/markerSettings';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
-
-const DATA_KEY = 'MARKERS';
 
 export type MarkerActionType =
     {type: 'ADD_MARKER'} |
@@ -72,7 +69,7 @@ const loadMarkers = (markers: MarkerData[]) => {
     return markers
 }
 
-const clearMarkers = () => {
+const clearMarkers = (): MarkerData[] => {
     return []
 }
 

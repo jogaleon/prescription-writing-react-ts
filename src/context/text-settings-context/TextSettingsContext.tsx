@@ -1,11 +1,8 @@
 import { IContextProviderProps } from '../../types/context/contextProviderProps';
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { v4 as uuid } from "uuid";
 
 import TextSettings from '../../types/state/textSettings';
-import getArrayFromLocalStorage from '../utils/getArrayFromLocalStorage';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
-import { convertTypeAcquisitionFromJson } from 'typescript';
 
 export type TextSettingsActionType = 
     {type: 'SAVE_TEXT_SETTINGS' | 'LOAD_TEXT_SETTINGS'; payload: TextSettings}
@@ -31,7 +28,8 @@ const textSettingsReducer = (state: TextSettings, action: TextSettingsActionType
 
 const TextSettingsContext = createContext<TextSettingsContextType | null>(null);
 const initialState: TextSettings = {
-    globalTextSize: '0',
+    markerGlobalTextSize: '',
+    prescriptionTextSize: '',
     color: '#000000',
     fontWeight: 'normal'
 }

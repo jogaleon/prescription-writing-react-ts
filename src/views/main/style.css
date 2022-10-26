@@ -1,14 +1,15 @@
 .Main {
     padding: 10px;
     display: grid;
-    grid-template-rows: 200px 1fr 1fr;
+    grid-template-rows: 200px 300px 500px 1fr;
     grid-template-columns: 800px 1000px;
     grid-template-areas:
         "profile display"
         "marker display"
         "prescription display"
+        "blank display"
     ;
-    gap: 10px;
+    gap: 20px;
 }
 
 .ProfilePanel {
@@ -17,6 +18,10 @@
 
 .MarkerEditor {
     grid-area: marker;
+}
+
+.PrescriptionListEditor {
+    grid-area: prescription;
 }
 
 .Display {

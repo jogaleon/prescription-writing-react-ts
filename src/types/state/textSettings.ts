@@ -1,5 +1,6 @@
 type TextSettings = {
-    globalTextSize: string
+    markerGlobalTextSize: string
+    prescriptionTextSize: string
     color: string
     fontWeight: string
 }

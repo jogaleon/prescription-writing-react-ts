@@ -1,0 +1,33 @@
+.PrescriptionListEditorItem {
+    border: thin black solid;
+    padding: 5px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 50px;
+    grid-template-rows: 40px 40px;
+    grid-template-areas:
+        "medicine dosage type quantity delete"
+        "directions directions directions directions directions"
+    ;
+    gap: 5px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+label {
+    font-size: 0.8rem;
+}
+.button-delete{
+    grid-area: delete;
+}
+
+.input-container-directions {
+    grid-area: directions;
+    flex-direction: row;
+}
+
+.input-container-directions > input {
+    width: 98%;
+}

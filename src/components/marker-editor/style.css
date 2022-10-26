@@ -2,7 +2,10 @@
 }
 
 .marker-editor-item-container {    
+    max-height: 80%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 10px;
+    overflow-y: scroll;
 }

@@ -6,6 +6,7 @@ import Modal from '../modal';
 import ProfileEditor from '../profile-editor';
 import EditProfile from '../profile-editor/components/edit-profile';
 import SaveButton from './components/save-button';
+import TextSettingsControls from './components/text-settings-controls';
 
 import './style.css';
 
@@ -36,6 +37,7 @@ const ProfilePanel: React.FunctionComponent<IProfilePanelProps> = (props) => {
           <>
             <button onClick={() => setEditProfileModalOpen(true)}>Edit Profile</button>
             <SaveButton />
+            <TextSettingsControls />
           </>
         } 
     </div>

@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import useDebounce from "../../../hooks/useDebounce";
+import useDebounce from "../../../../hooks/useDebounce";
 
-import TextSettingsContext, { TextSettingsContextType } from "../../../context/text-settings-context/TextSettingsContext";
-import TextSettings from "../../../types/state/textSettings";
+import TextSettingsContext, { TextSettingsContextType } from "../../../../context/text-settings-context/TextSettingsContext";
 
 import './style.css';
 
@@ -33,8 +32,10 @@ const TextSettingsControls: React.FunctionComponent<ITextSettingsControlsProps> 
   return (
     <div className="TextSettingsControls">
         {/* <h2>Text Settings Controls</h2> */}
-        <label htmlFor="globalTextSize">Global Text Size:</label>
-        <input type="number" name="globalTextSize" value={input.globalTextSize} onChange={handleInputChange} />
+        <label htmlFor="markerGlobalTextSize">Marker Global Text Size:</label>
+        <input type="number" name="markerGlobalTextSize" value={input.markerGlobalTextSize} onChange={handleInputChange} />
+        <label htmlFor="prescriptionTextSize">Prescription Text Size:</label>
+        <input type="number" name="prescriptionTextSize" value={input.prescriptionTextSize} onChange={handleInputChange} />
         <label htmlFor="color">Color:</label>
         <input type="color" name="color" value={input.color} onChange={handleInputChange} />
         <label htmlFor="fontWeight">Font Weight: </label>

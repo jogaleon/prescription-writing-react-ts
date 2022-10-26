@@ -10,7 +10,6 @@ const PROFILES_DATA_KEY = 'PROFILES';
 const ACTIVE_PROFILE_ID_KEY = 'ACTIVE_PROFILE_ID';
 
 export type ProfileActionType = 
-    {type: 'CREATE_NEW_PROFILE'} |
     {type: 'ADD_PROFILE' ; payload: ProfileData} |
     {type: 'EDIT_PROFILE' ; payload: {id: string, profileDataChunk: ProfileDataChunk}} |
     {type: 'DELETE_PROFILE'; payload: {id: string}}
@@ -24,22 +23,6 @@ export type ProfileContextType = {
 }
 
 //Reducer
-const createNewProfile = (state: ProfileData[]) => {
-    return [...state, {
-        id: uuid(),
-        name: 'profile',
-        imageData: null,
-        markers: [],
-        prescriptionList: [],
-        textSettings: {
-            globalTextSize: '#000000',
-            color: 'black',
-            fontWeight: 'normal',        
-        },
-        printWidth: 0,
-        printHeight: 0
-    }]
-}
 
 const addProfile = (state: ProfileData[], newProfile: ProfileData) => {
     return [...state, newProfile]
@@ -57,7 +40,6 @@ const deleteProfile = (state: ProfileData[], deleteId: string) => {
 
 const profilesReducer = (state: ProfileData[], action: ProfileActionType) => {
     switch(action.type) {
-        case 'CREATE_NEW_PROFILE': return createNewProfile(state)
         case 'ADD_PROFILE': return addProfile(state, action.payload)
         case 'EDIT_PROFILE': return editProfile(state, action.payload.id,action.payload.profileDataChunk)
         case 'DELETE_PROFILE': return deleteProfile(state, action.payload.id)

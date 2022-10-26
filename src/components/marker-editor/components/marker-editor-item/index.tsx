@@ -61,10 +61,16 @@ const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = ({mark
     <div className="MarkerEditorItem">
         {/* <label htmlFor="input-label">Label: </label> */}
         <input type="text" name="label" className="input-label" value={input.label} onChange={handleInputChange} />
-        <label htmlFor="input-text">Text: </label>
-        <input type="text" name="text" className="input-text" value={input.text} onChange={handleInputChange} />
-        <label htmlFor="input-text">Size: </label>
-        <input type="number" name="textSize" className="input-text-size" value={input.textSize} disabled={isTextLocked} onChange={handleInputChange} />
+        <div className="input-container">
+            <label htmlFor="input-text">Text: </label>
+            <input type="text" name="text" className="input-text" value={input.text} onChange={handleInputChange} />
+        </div>
+
+        <div className="input-container">
+            <label htmlFor="input-text">Size: </label>
+            <input type="number" name="textSize" className="input-text-size" value={input.textSize} disabled={isTextLocked} onChange={handleInputChange} />
+        </div>        
+       
         <button onClick={toggleTextLock}>{isTextLocked ? 'Unlock Size' : 'Lock Size'}</button>
         <button onClick={() => markersDispatch({type: 'DELETE_MARKER', payload: {id: marker.id}})}>Delete Marker</button>
     </div>

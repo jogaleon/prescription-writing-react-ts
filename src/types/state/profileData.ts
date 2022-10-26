@@ -1,6 +1,6 @@
 import ImageData from "./imageData"
 import MarkerData from "./markerData"
-import MedicineEntryData from "./medicineEntryData"
+import MedicineEntryData from "./prescriptionData"
 import TextSettings from "./textSettings"
 
 type ProfileData = {
