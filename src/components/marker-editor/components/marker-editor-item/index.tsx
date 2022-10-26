@@ -26,6 +26,7 @@ const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = ({mark
         textSize: marker.textSize
     })
     const debouncedInput = useDebounce(input);
+
     useEffect(() => {
         if (isTextLocked) setInput(prevInput => ({
             ...prevInput,

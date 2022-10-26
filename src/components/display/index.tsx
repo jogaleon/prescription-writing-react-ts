@@ -27,7 +27,7 @@ const INITIAL_HEIGHT = 300;
 
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
-    const {textSettingsState, textSettingsDispatch} = useContext(TextSettingsContext) as TextSettingsContextType; 
+    const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
     // const [imageData, setImageData] = useState<ImageData|null>(null);
 
@@ -97,6 +97,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             key={marker.id}
             containerData={containerData}
             marker={marker}
+            fontWeight={textSettingsState.fontWeight}
         />
     })
 

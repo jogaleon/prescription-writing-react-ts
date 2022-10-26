@@ -10,14 +10,16 @@ import './style.css';
 interface IMarkerProps {
   containerData: IElementDataState
   marker: MarkerData
+  fontWeight: string
 }
 
-const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker}) => {
+const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, fontWeight}) => {
   const markerStyle = {
     height: `${marker.textSize}px`,
   }
   const markerTextStyle = {
-    fontSize: `${marker.textSize}px`
+    fontSize: `${marker.textSize}px`,
+    fontWeight: fontWeight
   }
 
   const markerRef = useRef<HTMLDivElement | null>(null);
