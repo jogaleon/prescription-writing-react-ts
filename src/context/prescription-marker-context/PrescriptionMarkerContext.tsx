@@ -1,3 +1,4 @@
+
 import { IContextProviderProps } from '../../types/context/contextProviderProps';
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { v4 as uuid } from "uuid";
@@ -58,7 +59,7 @@ const resetPrescriptionMarker = (state: PrescriptionMarkerData) => {;
     }
 }
 
-const markersReducer = (state: PrescriptionMarkerData, action: PrescriptionMarkerActionType) => {
+const prescriptionMarkerReducer = (state: PrescriptionMarkerData, action: PrescriptionMarkerActionType) => {
     switch(action.type) {
         case 'SAVE_PRESCRIPTION_MARKER_POSITION': return savePrescriptionMarkerPosition(state, action.payload.newX, action.payload.newY)
         case 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS': return savePrescriptionMarkerDimensions(state, action.payload.newW, action.payload.newH)
@@ -70,10 +71,9 @@ const markersReducer = (state: PrescriptionMarkerData, action: PrescriptionMarke
 }
 
 const PrescriptionMarkerContext = createContext<MarkerContextType | null>(null);
-// const initialState = getArrayFromLocalStorage(DATA_KEY) as MarkerData[]
 const initialMarkerState: PrescriptionMarkerData = {
     id: '',
-    fontSize: '',
+    textSize: '',
     x: 0,
     y: 0,
     width: 0,
@@ -84,7 +84,7 @@ const initialMarkerState: PrescriptionMarkerData = {
 //Context Provider
 export const PrescriptionMarkerContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
-    const [prescriptionMarkerState, prescriptionMarkerDispatch] = useReducer(markersReducer, initialMarkerState);
+    const [prescriptionMarkerState, prescriptionMarkerDispatch] = useReducer(prescriptionMarkerReducer, initialMarkerState);
     
     // useEffect(() => {
     //     const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
