@@ -72,13 +72,10 @@ const prescriptionMarkerReducer = (state: PrescriptionMarkerData, action: Prescr
 
 const PrescriptionMarkerContext = createContext<MarkerContextType | null>(null);
 const initialMarkerState: PrescriptionMarkerData = {
-    id: '',
-    textSize: '',
     x: 0,
     y: 0,
     width: 0,
     height: 0,
-    entrySpacing: 0
 }
 
 //Context Provider
@@ -86,11 +83,11 @@ export const PrescriptionMarkerContextProvider = ({children}: IContextProviderPr
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
     const [prescriptionMarkerState, prescriptionMarkerDispatch] = useReducer(prescriptionMarkerReducer, initialMarkerState);
     
-    // useEffect(() => {
-    //     const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
-    //     if (!activeProfile?.markers) return
-    //     prescriptionMarkerDispatch({type:'LOAD_MARKERS', payload: activeProfile.markers})
-    // },[activeProfileId])
+    useEffect(() => {
+        const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
+        if (!activeProfile?.prescriptionMarker) return
+        prescriptionMarkerDispatch({type:'LOAD_PRESCRIPTION_MARKER', payload: activeProfile.prescriptionMarker})
+    },[activeProfileId])
 
     return (
         <PrescriptionMarkerContext.Provider value={{prescriptionMarkerState, prescriptionMarkerDispatch}}>

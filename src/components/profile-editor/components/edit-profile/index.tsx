@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 
 import ProfileContext, { ProfileContextType } from "../../../../context/profile-context/ProfileContext";
+import MARKER_SETTINGS from '../../../../settings/markerSettings';
 
 interface IEditProfileProps {
     profileId?: string
@@ -35,9 +36,16 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
                 imageData: null,
                 markers: [],
                 prescriptionList: [],
+                prescriptionMarker: {
+                    x: 0,
+                    y: 0,
+                    width: MARKER_SETTINGS.MIN_WIDTH,
+                    height: MARKER_SETTINGS.MIN_HEIGHT,
+                },
                 textSettings: {
                     markerGlobalTextSize: '12',
                     prescriptionTextSize: '12',
+                    prescriptionEntrySpacing: '12',
                     color: '#000000',
                     fontWeight: 'normal',        
                 },

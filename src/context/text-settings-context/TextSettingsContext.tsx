@@ -30,6 +30,7 @@ const TextSettingsContext = createContext<TextSettingsContextType | null>(null);
 const initialState: TextSettings = {
     markerGlobalTextSize: '',
     prescriptionTextSize: '',
+    prescriptionEntrySpacing: '',
     color: '#000000',
     fontWeight: 'normal'
 }
