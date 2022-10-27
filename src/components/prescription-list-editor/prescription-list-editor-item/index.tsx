@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PrescriptionListActionType } from '../../../context/prescription-list-context/PrescriptionListContext';
 import useDebounce from '../../../hooks/useDebounce';
 import PrescriptionData from '../../../types/state/prescriptionData';
@@ -18,7 +18,11 @@ const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemP
     quantity: prescription.quantity,
     directions: prescription.directions   
   })
-  const debouncedInput = useDebounce(input)
+  const debouncedInput = useDebounce(input);
+
+  useEffect(() => {
+    prescriptionListDispatch({type: 'EDIT_PRESCRIPTION', payload: {id: prescription.id, prescription: input}})
+  },[debouncedInput])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(prevInput => {
@@ -29,7 +33,6 @@ const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemP
         }
     })
   }
-
   return (
     <div className="PrescriptionListEditorItem">
         <div className="input-container">

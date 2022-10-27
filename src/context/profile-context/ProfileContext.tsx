@@ -55,7 +55,7 @@ const initialActiveProfileIdState: string = localStorage.getItem(ACTIVE_PROFILE_
 export const ProfileContextProvider = ({children}: IContextProviderProps) => {
     const [profilesState, profilesDispatch] = useReducer(profilesReducer, initialProfilesState)
     const [activeProfileId, setActiveProfileId] = useState(initialActiveProfileIdState)
-    // console.log(profilesState)
+    console.log(profilesState)
     // console.log(activeProfileId)
 
     useEffect(() => {

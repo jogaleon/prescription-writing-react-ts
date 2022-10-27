@@ -15,13 +15,14 @@ import MarkerContext, { MarkerContextType } from '../../context/marker-context/M
 import './style.css'
 import ImageContext, { ImageContextType } from '../../context/image-context/ImageContext';
 import TextSettingsContext, { TextSettingsContextType } from '../../context/text-settings-context/TextSettingsContext';
+import PrescriptionMarker from './components/prescription-marker';
 
 interface IDisplayProps {
     width: number
     height: number
 }
 
-const MAX_WIDTH = 800;
+const MAX_WIDTH = 500;
 const INITIAL_WIDTH = 300;
 const INITIAL_HEIGHT = 300;
 
@@ -113,6 +114,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 <button onClick={() => writeAllText()}>Write Text</button>
             </div>
             <div className='display-canvas-container' ref={containerRef}>
+                <PrescriptionMarker containerData={containerData} />
                 {markerElements}
                 <canvas className='display-canvas' ref={canvasRef} />
             </div>
