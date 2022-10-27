@@ -31,8 +31,9 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
         const offsetY = e.clientY - target.getBoundingClientRect().top;
         
         const dragging = (e: MouseEvent) => {
-          const newX = e.clientX - offsetX;
-          const newY = e.clientY - offsetY;
+          console.log(e)
+          const newX = e.clientX - offsetX + window.scrollX;
+          const newY = e.clientY - offsetY + window.scrollY;
 
           if (newX < sX || newX > eX - marker.offsetWidth) return
           if (newY < sY || newY > eY - marker.offsetHeight) return
