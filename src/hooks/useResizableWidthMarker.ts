@@ -24,7 +24,7 @@ const useResizeWidthMarker = (el: React.MutableRefObject<HTMLDivElement | null>,
         if (!marker) throw new Error('Resize handle must have a parent element')
         if (!target || !Array.from(target.classList).includes('marker-resize-handle')) return
 
-        const offsetX = marker.getBoundingClientRect().left;
+        const offsetX = marker.getBoundingClientRect().left + window.scrollX;
 
         const resizing = (e: MouseEvent) => {
             setWidth(prevWidth => {

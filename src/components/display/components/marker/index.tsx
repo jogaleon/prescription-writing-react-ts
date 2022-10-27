@@ -36,7 +36,7 @@ const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, f
     <div className='Marker' style={markerStyle} ref={markerRef}>
       <p className='marker-label'>{marker.label}</p>
       <div className='marker-text' style={markerTextStyle}>{marker.text}</div>
-      <div className='marker-resize-handle' ref={markerResizeHandleRef}></div>
+      <div className='marker-resize-handle w' ref={markerResizeHandleRef}></div>
     </div>
   );
 };

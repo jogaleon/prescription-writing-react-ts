@@ -38,8 +38,8 @@ const useElement = <T extends HTMLElement>(initialWidth: number, initialHeight: 
 
         setElementData(prevElementData => ({
             ...prevElementData,
-            positionX: element.getBoundingClientRect().left,
-            positionY: element.getBoundingClientRect().top
+            positionX: element.getBoundingClientRect().left + window.scrollX,
+            positionY: element.getBoundingClientRect().top + window.scrollY
         }))
     },[elementRef])
     
