@@ -3,12 +3,9 @@ import throttle from "../global-utils/throttle";
 
 import { BoundaryBox } from './../types/boundaryBox';
 
-import MarkerContext, { MarkerContextType } from "../context/marker-context/MarkerContext";
-
-const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, markerId: string, startX: number, startY: number, boundaryBox: BoundaryBox) => {
+const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, savePosition: (x: number, y: number) => void, startX: number, startY: number, boundaryBox: BoundaryBox) => {
   const [{ x, y }, setPosition] = useState({ x: startX, y: startY });
   const [isDragging, setIsDragging] = useState(false);
-  const {markersDispatch} = useContext(MarkerContext) as MarkerContextType;
   
 
   useEffect(() => {
@@ -56,7 +53,7 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
     return () => {
       marker.removeEventListener("mousedown", dragStart);
     };
-  }, [el, boundaryBox, markersDispatch]);
+  }, [el, boundaryBox]);
 
   //Set marker element position
   useEffect(() => {
@@ -69,12 +66,9 @@ const useDraggableMarker = (el: React.MutableRefObject<HTMLDivElement | null>, m
   //Saving new position to state (x and y deps are intentionally omitted)
   useEffect(() => {
     if (isDragging) return
-    markersDispatch({type: 'SAVE_MARKER_POSITION', payload: {
-      id: markerId,
-      newX: x,
-      newY: y
-    }})
-  },[markerId, isDragging, markersDispatch])
+    savePosition(x, y);
+
+  },[isDragging, savePosition])
 }
 
 export default useDraggableMarker;

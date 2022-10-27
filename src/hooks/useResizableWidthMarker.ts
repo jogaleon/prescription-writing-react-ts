@@ -1,12 +1,9 @@
 import MARKER_SETTINGS from "../settings/markerSettings";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
-import MarkerContext, { MarkerContextType } from '../context/marker-context/MarkerContext';
-
-const useResizeWidthMarker = (el: React.MutableRefObject<HTMLDivElement | null>, markerId: string, startWidth: number, boundaryX: number) => {
+const useResizeWidthMarker = (el: React.MutableRefObject<HTMLDivElement | null>, saveDimensions: (w: number) => void, startWidth: number, boundaryX: number) => {
     const [width, setWidth] = useState(startWidth);
     const [isResizing, setIsResizing] = useState(false);
-    const { markersDispatch } = useContext(MarkerContext) as MarkerContextType;
 
     useEffect(() => {
         setWidth(startWidth)
@@ -47,7 +44,7 @@ const useResizeWidthMarker = (el: React.MutableRefObject<HTMLDivElement | null>,
     return () => {
         resizeHandle.removeEventListener("mousedown", resizeStart);
     };
-    }, [el, boundaryX, markersDispatch]);
+    }, [el, boundaryX]);
 
     useEffect(() => {
         const resizeHandle = el.current
@@ -58,11 +55,8 @@ const useResizeWidthMarker = (el: React.MutableRefObject<HTMLDivElement | null>,
     }, [el, width]);
 
     useEffect(() => {
-        markersDispatch({type: 'SAVE_MARKER_DIMENSIONS', payload: {
-            id: markerId,
-            newW: width,
-        }})
-    },[markerId, isResizing, markersDispatch])
+        saveDimensions(width)
+    },[isResizing, saveDimensions])
 }
 
 export default useResizeWidthMarker;

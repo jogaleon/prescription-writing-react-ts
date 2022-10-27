@@ -1,21 +1,20 @@
 
 import { IContextProviderProps } from '../../types/context/contextProviderProps';
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { v4 as uuid } from "uuid";
 
 import MARKER_SETTINGS from '../../settings/markerSettings';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
 import PrescriptionMarkerData, { PrescriptionMarkerDataChunk } from '../../types/state/prescriptionMarkerData';
 
 export type PrescriptionMarkerActionType =
-    {type: 'SAVE_PRESCRIPTION_MARKER_POSITION'; payload: {id: string, newX: number, newY: number}} |
-    {type: 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS'; payload: {id: string, newW: number, newH: number}} |  
+    {type: 'SAVE_PRESCRIPTION_MARKER_POSITION'; payload: {newX: number, newY: number}} |
+    {type: 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS'; payload: {newW: number, newH: number}} |  
     {type: 'EDIT_PRESCRIPTION_MARKER'; payload: PrescriptionMarkerDataChunk} |
     {type: 'LOAD_PRESCRIPTION_MARKER'; payload: PrescriptionMarkerData} |
     {type: 'RESET_PRESCRIPTION_MARKER'}
 ;
 
-export type MarkerContextType = {
+export type PrescriptionMarkerContextType = {
     prescriptionMarkerState: PrescriptionMarkerData
     prescriptionMarkerDispatch: React.Dispatch<PrescriptionMarkerActionType>
 }
@@ -70,7 +69,7 @@ const prescriptionMarkerReducer = (state: PrescriptionMarkerData, action: Prescr
     }
 }
 
-const PrescriptionMarkerContext = createContext<MarkerContextType | null>(null);
+const PrescriptionMarkerContext = createContext<PrescriptionMarkerContextType | null>(null);
 const initialMarkerState: PrescriptionMarkerData = {
     x: 0,
     y: 0,
@@ -82,7 +81,8 @@ const initialMarkerState: PrescriptionMarkerData = {
 export const PrescriptionMarkerContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
     const [prescriptionMarkerState, prescriptionMarkerDispatch] = useReducer(prescriptionMarkerReducer, initialMarkerState);
-    
+    // console.log(prescriptionMarkerState);
+
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
         if (!activeProfile?.prescriptionMarker) return

@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import ImageContext, { ImageContextType } from '../../../../context/image-context/ImageContext';
 import MarkerContext, { MarkerContextType } from '../../../../context/marker-context/MarkerContext';
 import PrescriptionListContext, { PrescriptionListContextType } from '../../../../context/prescription-list-context/PrescriptionListContext';
+import PrescriptionMarkerContext, { PrescriptionMarkerContextType } from '../../../../context/prescription-marker-context/PrescriptionMarkerContext';
 import ProfileContext, { ProfileContextType } from '../../../../context/profile-context/ProfileContext';
 import TextSettingsContext, { TextSettingsContextType } from '../../../../context/text-settings-context/TextSettingsContext';
 import { ProfileDataChunk } from '../../../../types/state/profileData';
@@ -15,6 +16,7 @@ interface ISaveButtonProps {
 const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
     const {activeProfileId, profilesDispatch} = useContext(ProfileContext) as ProfileContextType
     const {markersState} = useContext(MarkerContext) as MarkerContextType
+    const {prescriptionMarkerState} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType
     const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType
     const {imageState} = useContext(ImageContext) as ImageContextType
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType
@@ -23,6 +25,7 @@ const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
         const newDataChunk: ProfileDataChunk = {
             markers: markersState,
             prescriptionList: prescriptionListState,
+            prescriptionMarker: prescriptionMarkerState,
             imageData: imageState,
             textSettings: textSettingsState
         }

@@ -22,7 +22,7 @@ interface IDisplayProps {
     height: number
 }
 
-const MAX_WIDTH = 500;
+const MAX_WIDTH = 1000;
 const INITIAL_WIDTH = 300;
 const INITIAL_HEIGHT = 300;
 
@@ -30,7 +30,6 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
-    // const [imageData, setImageData] = useState<ImageData|null>(null);
 
     const [canvasRef, resizeCanvas, drawImageToCanvas, writeText, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
@@ -98,6 +97,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             key={marker.id}
             containerData={containerData}
             marker={marker}
+            markersDispatch={markersDispatch}
             fontWeight={textSettingsState.fontWeight}
         />
     })
