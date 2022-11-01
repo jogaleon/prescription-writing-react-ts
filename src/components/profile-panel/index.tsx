@@ -8,7 +8,7 @@ import EditProfile from '../profile-editor/components/edit-profile';
 import SaveButton from './components/save-button';
 import TextSettingsControls from './components/text-settings-controls';
 
-import './style.css';
+import './style.css'
 
 interface IProfilePanelProps {
 }
