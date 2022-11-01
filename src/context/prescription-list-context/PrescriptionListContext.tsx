@@ -24,7 +24,7 @@ const addPrescription = (state: PrescriptionData[]) => {
         medicineName: '',
         dosage: '',
         type: '',
-        quantity: 0,
+        quantity: '',
         directions: '',
     }]
 }

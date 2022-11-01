@@ -10,14 +10,10 @@ interface IMainProps {
 const Main: React.FunctionComponent<IMainProps> = (props) => {
   return (
     <div className='Main'>
-      {/* <div className='main-left'>
-      </div> */}
         <ProfilePanel />
         <MarkerEditor />
         <PrescriptionListEditor />
-        <Display width={1200} height={600}/>
-      {/* <div className='main-right'>
-      </div> */}
+        <Display width={1200} height={600} />
     </div>
   );
 };

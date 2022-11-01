@@ -3,7 +3,7 @@ type PrescriptionData = {
     medicineName: string
     dosage: string
     type: string
-    quantity: number
+    quantity: string
     directions: string
 }
 
@@ -12,7 +12,7 @@ export type PrescriptionDataChunk = {
     medicineName?: string
     dosage?: string
     type?: string
-    quantity?: number
+    quantity?: string
     directions?: string
 }
 
