@@ -9,17 +9,17 @@ import calculateScale from './utils/calculateScale';
 import ImageData from '../../types/state/imageData';
 
 import Marker from './components/marker';
-
-import MarkerContext, { MarkerContextType } from '../../context/marker-context/MarkerContext';
-
-import './style.css'
-import ImageContext, { ImageContextType } from '../../context/image-context/ImageContext';
-import TextSettingsContext, { TextSettingsContextType } from '../../context/text-settings-context/TextSettingsContext';
 import PrescriptionMarker from './components/prescription-marker';
+import ReactToPrint from 'react-to-print';
+
+
+import ImageContext, { ImageContextType } from '../../context/image-context/ImageContext';
+import MarkerContext, { MarkerContextType } from '../../context/marker-context/MarkerContext';
 import PrescriptionMarkerContext, { PrescriptionMarkerContextType } from '../../context/prescription-marker-context/PrescriptionMarkerContext';
 import PrescriptionListContext, { PrescriptionListContextType } from '../../context/prescription-list-context/PrescriptionListContext';
-import formatPrescriptionText from '../../global-utils/formatPrescriptionEntry';
-import ReactToPrint from 'react-to-print';
+import TextSettingsContext, { TextSettingsContextType } from '../../context/text-settings-context/TextSettingsContext';
+
+import './style.css'
 
 interface IDisplayProps {
     width: number
@@ -37,7 +37,6 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
 
-    const displayRef = useRef(null);
     const [canvasRef, resizeCanvas, drawImageToCanvas, writeText, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -51,57 +50,6 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             nativeHeight: image.height,
             scaleFactor: calculateScale(MAX_WIDTH, image.width, 3)
         }})
-    }
-
-    const writeMarkerText = () => {
-        markersState.forEach(marker => {
-            writeText(
-                marker.x,
-                marker.y,
-                marker.text,
-                parseInt(marker.textSize),
-                textSettingsState.color,
-                textSettingsState.fontWeight,
-                (imageState) ? imageState.scaleFactor : 1
-            )
-        })
-    }
-
-    const writePrescriptionText = () => {
-        const {x, y} = prescriptionMarkerState
-        const textSize = parseInt(textSettingsState.prescriptionTextSize)
-        let offsetY = y;
-        prescriptionListState.forEach(prescription => {
-            const [firstLine, secondLine] = formatPrescriptionText(
-                prescription.medicineName,
-                prescription.dosage,
-                prescription.type,
-                prescription.quantity,
-                prescription.directions 
-            )
-
-            writeText(
-                x,
-                offsetY,
-                firstLine,
-                textSize,
-                textSettingsState.color,
-                textSettingsState.fontWeight,
-                (imageState) ? imageState.scaleFactor : 1
-            )
-            offsetY = offsetY + textSize - 5
-
-            writeText(
-                x,
-                offsetY,
-                secondLine,
-                textSize,
-                textSettingsState.color,
-                textSettingsState.fontWeight,
-                (imageState) ? imageState.scaleFactor : 1
-            )
-            offsetY = offsetY + textSize - 5
-        })
     }
 
     //Resize canvas/container and draw image
@@ -156,8 +104,6 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                         accept='image/png, image/jpeg'
                         onChange={handleInputFile}
                     />
-                    <button onClick={() => writeMarkerText()}>Write Text</button>
-                    <button onClick={() => writePrescriptionText()}>Write Prescription Text</button>
                 </div>
                 <div className='display-canvas-container' ref={containerRef}>
                     <PrescriptionMarker containerData={containerData} />

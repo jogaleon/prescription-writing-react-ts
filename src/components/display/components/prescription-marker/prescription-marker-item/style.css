@@ -1,4 +1,4 @@
-.PrescriptionMarkerText {
+.PrescriptionMarkerItem {
     padding: 0;
     margin: 0;
     
@@ -11,7 +11,7 @@
     overflow: hidden;
 }
 
-.PrescriptionMarkerText p {
+.PrescriptionMarkerItem p {
     padding: 0;
     margin: 0;
 }

@@ -8,7 +8,7 @@ import '../marker/style.css';
 import './style.css';
 import PrescriptionMarkerContext, { PrescriptionMarkerContextType } from '../../../../context/prescription-marker-context/PrescriptionMarkerContext';
 import TextSettingsContext, { TextSettingsContextType } from '../../../../context/text-settings-context/TextSettingsContext';
-import PrescriptionMarkerText from './prescription-marker-text';
+import PrescriptionMarkerItem from './prescription-marker-item';
 import PrescriptionListContext, { PrescriptionListContextType } from '../../../../context/prescription-list-context/PrescriptionListContext';
 
 interface IPrescriptionMarkerProps {
@@ -20,13 +20,6 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
   const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType
   const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType;
   const {x, y, width, height} = useMemo(() => prescriptionMarkerState,[prescriptionMarkerState])
-  // const markerStyle = {
-  //   height: `${marker.textSize}px`,
-  // }
-  // const markerTextStyle = {
-  //   fontSize: `${marker.textSize}px`,
-  //   fontWeight: fontWeight
-  // }
 
   const markerRef = useRef<HTMLDivElement | null>(null);
   const markerResizeHandleRef = useRef<HTMLDivElement | null>(null);
@@ -52,8 +45,8 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
     eY: containerData.positionY + containerData.height
   })
 
-  const prescriptionMarkerTextElements = prescriptionListState.map(prescription => {
-    return <PrescriptionMarkerText 
+  const prescriptionMarkerItemElements = prescriptionListState.map(prescription => {
+    return <PrescriptionMarkerItem 
       textSize={textSettingsState.prescriptionTextSize}
       medicineName={prescription.medicineName}
       dosage={prescription.dosage}
@@ -68,7 +61,7 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
     <div className='Marker'  ref={markerRef}>
       <p className='marker-label'>Prescription List</p>
       <div className='prescription-marker-text-container'>
-        {prescriptionMarkerTextElements}
+        {prescriptionMarkerItemElements}
       </div>
       <div className='marker-resize-handle wh' ref={markerResizeHandleRef}></div>
     </div>

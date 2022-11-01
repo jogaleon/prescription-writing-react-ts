@@ -1,8 +1,6 @@
-import MarkerData from './../types/state/markerData';
+import { useRef, useCallback, useEffect } from 'react';
 import dataToImage from '../components/display/utils/dataToImage';
 
-import { useRef, useCallback, useEffect } from 'react';
-import { isContext } from 'vm';
 const useCanvas = (initialWidth: number, initialHeight: number):[
     React.MutableRefObject<HTMLCanvasElement | null>,
     (width: number, height: number, scale?: number) => void,
@@ -42,14 +40,6 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         
     },[canvasRef])
-
-    // const drawTextToCanvas = useCallback((markerData: MarkerData[]) => {
-    //     const canvas = canvasRef.current;
-    //     if (!canvas) return
-        
-    //     const ctx = canvas.getContext('2d');
-    //     if (!ctx) return;    
-    // },[canvasRef])
 
     const writeText = (x: number, y: number, text: string, size: number, color: string, weight: string, scale: number, maxWidth?: number) => {
         const canvas = canvasRef.current;
