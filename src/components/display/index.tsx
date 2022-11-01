@@ -1,4 +1,4 @@
-import { useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import useElement from '../../hooks/useElement';
 import useCanvas from '../../hooks/useCanvas';
 
@@ -36,6 +36,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType;
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
+    const [hideBorder, setHideBorder] = useState(false);
 
     const [canvasRef, resizeCanvas, drawImageToCanvas, writeText, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
@@ -91,6 +92,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             marker={marker}
             markersDispatch={markersDispatch}
             fontWeight={textSettingsState.fontWeight}
+            hideBorder={hideBorder}
         />
     })
 
@@ -106,7 +108,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                     />
                 </div>
                 <div className='display-canvas-container' ref={containerRef}>
-                    <PrescriptionMarker containerData={containerData} />
+                    <PrescriptionMarker containerData={containerData} hideBorder={hideBorder} />
                     {markerElements}
                     <canvas className='display-canvas' ref={canvasRef} />
                 </div>

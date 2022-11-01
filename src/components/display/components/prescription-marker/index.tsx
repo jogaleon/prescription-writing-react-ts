@@ -13,9 +13,10 @@ import PrescriptionListContext, { PrescriptionListContextType } from '../../../.
 
 interface IPrescriptionMarkerProps {
   containerData: IElementDataState
+  hideBorder: boolean
 }
 
-const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({containerData}) => {
+const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({containerData, hideBorder}) => {
   const {prescriptionMarkerState, prescriptionMarkerDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
   const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType
   const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType;
@@ -59,6 +60,7 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
   useResizeMarker(markerResizeHandleRef, saveMarkerDimensions, width, height, containerData.positionX + containerData.width, containerData.positionY + containerData.height)
   return (
     <div className='Marker'  ref={markerRef}>
+      <div className='prescription-marker-cover' />
       <p className='marker-label'>Prescription List</p>
       <div className='prescription-marker-text-container'>
         {prescriptionMarkerItemElements}

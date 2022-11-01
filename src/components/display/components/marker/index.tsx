@@ -14,12 +14,15 @@ interface IMarkerProps {
   marker: MarkerData
   markersDispatch: React.Dispatch<MarkerActionType>
   fontWeight: string
+  hideBorder: boolean
 }
 
-const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, markersDispatch, fontWeight}) => {
+const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, markersDispatch, fontWeight, hideBorder}) => {
   const markerStyle = {
     height: `${marker.textSize}px`,
+    border: (hideBorder) ? '' : 'thin red solid'
   }
+
   const markerTextStyle = {
     fontSize: `${marker.textSize}px`,
     fontWeight: fontWeight
@@ -54,9 +57,9 @@ const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, m
   
   return (
     <div className='Marker' style={markerStyle} ref={markerRef}>
-      <p className='marker-label'>{marker.label}</p>
+      <p className={`marker-label${hideBorder ? ' hidden' : ''}`}>{marker.label}</p>
       <div className='marker-text' style={markerTextStyle}>{marker.text}</div>
-      <div className='marker-resize-handle w' ref={markerResizeHandleRef}></div>
+      <div className={`marker-resize-handle w${hideBorder ? ' hidden' : ''}`} ref={markerResizeHandleRef}></div>
     </div>
   );
 };

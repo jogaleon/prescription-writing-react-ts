@@ -1,17 +1,11 @@
-.PrescriptionMarkerItem {
-    padding: 0;
-    margin: 0;
-    
+.PrescriptionMarkerItem { 
     color: red;
-    line-height: 0.9;
-
-    vertical-align: top;
-    text-overflow: ellipsis;   
-    white-space: nowrap;
-    overflow: hidden;
 }
 
 .PrescriptionMarkerItem p {
     padding: 0;
     margin: 0;
+    text-overflow: ellipsis;   
+    white-space: nowrap;
+    overflow: hidden;
 }

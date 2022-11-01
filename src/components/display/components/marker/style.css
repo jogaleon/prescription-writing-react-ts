@@ -3,11 +3,13 @@
     width: 100px;
     height: 100px;
 
-    border: thin red solid;
-
     cursor: pointer;
 
     z-index: 5;
+}
+
+.hidden {
+    display: none;
 }
 
 .marker-label {
