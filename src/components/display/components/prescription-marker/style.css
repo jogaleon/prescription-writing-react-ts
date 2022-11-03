@@ -8,8 +8,7 @@
 
 .prescription-marker-text-container {
     height: 100%;
-    text-overflow: ellipsis;   
     white-space: nowrap;
-    overflow-y: hidden;
+    overflow-y: hidden;    
 }  
 

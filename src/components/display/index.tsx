@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef, useMemo } from 'react';
 import useElement from '../../hooks/useElement';
 import useCanvas from '../../hooks/useCanvas';
 
@@ -10,7 +10,7 @@ import ImageData from '../../types/state/imageData';
 
 import Marker from './components/marker';
 import PrescriptionMarker from './components/prescription-marker';
-import ReactToPrint from 'react-to-print';
+import ReactToPrint, { useReactToPrint } from 'react-to-print';
 
 
 import ImageContext, { ImageContextType } from '../../context/image-context/ImageContext';
@@ -20,26 +20,50 @@ import PrescriptionListContext, { PrescriptionListContextType } from '../../cont
 import TextSettingsContext, { TextSettingsContextType } from '../../context/text-settings-context/TextSettingsContext';
 
 import './style.css'
+import ProfileContext, { ProfileContextType } from '../../context/profile-context/ProfileContext';
 
 interface IDisplayProps {
     width: number
     height: number
 }
 
-const MAX_WIDTH = 1000;
+const MAX_WIDTH = 500;
 const INITIAL_WIDTH = 300;
 const INITIAL_HEIGHT = 300;
 
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
-    const {prescriptionMarkerState} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
-    const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType;
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
-    const [hideBorder, setHideBorder] = useState(false);
+    const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
+
+    const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId])
+
+    const [hideGuidelines, setHideGuidelines] = useState(true);
+    const [printScale, setPrintScale] = useState(1);
 
     const [canvasRef, resizeCanvas, drawImageToCanvas, writeText, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
+    
+    //Display print
+    const printStyle = useMemo(() => `
+        @media print {
+            .display-canvas-container {
+                transform: scale(${(activeProfile?.printWidth || 200) / containerData.width}, ${(activeProfile?.printHeight || 200) / containerData.height});
+            }
+        }
+    `,[activeProfile, containerData])
+    const printPrescription = useReactToPrint({
+        content: () => containerRef.current,
+        pageStyle: printStyle
+    })
+
+    const handlePrint = () => {
+        setHideGuidelines(true)
+        setTimeout(() => {
+            printPrescription()
+        },1000)
+    }
 
     const handleInputFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return
@@ -92,7 +116,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             marker={marker}
             markersDispatch={markersDispatch}
             fontWeight={textSettingsState.fontWeight}
-            hideBorder={hideBorder}
+            hideGuidelines={hideGuidelines}
         />
     })
 
@@ -106,17 +130,15 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                         accept='image/png, image/jpeg'
                         onChange={handleInputFile}
                     />
+                    <button onClick={() => setHideGuidelines(prevHideGuidelines => !prevHideGuidelines)}>{hideGuidelines ? 'Show marker guidelines' : 'Hide marker guidelines'}</button>
                 </div>
                 <div className='display-canvas-container' ref={containerRef}>
-                    <PrescriptionMarker containerData={containerData} hideBorder={hideBorder} />
+                    <PrescriptionMarker containerData={containerData} hideGuidelines={hideGuidelines} />
                     {markerElements}
                     <canvas className='display-canvas' ref={canvasRef} />
                 </div>
             </div>
-            <ReactToPrint 
-                trigger={() => <button>Print this out!</button>}
-                content={() => containerRef.current}
-            />
+            <button onClick={handlePrint}>Print Prescription</button>
         </div>
     );
 };

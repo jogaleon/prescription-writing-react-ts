@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 .Display {
     position: relative;
     display: flex;
@@ -6,12 +10,11 @@
 
 .display-canvas-container {
     position: relative;
-    width: 500px;
-    height: 500px;
 
     border: 2px black solid;
     margin: 0;
     padding: 0;
+    transform-origin: top left;
 }
 
 .display-canvas {
@@ -20,4 +23,53 @@
     top: 0;
     
     transform-origin: top left;
+}
+
+.Marker {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+.marker-label {
+    position: absolute;
+    top: -1.6rem;
+
+    color: red;
+    font-size: 0.7rem;
+}
+
+.marker-text {
+
+    height: 100%;
+    width: 100%;
+    
+    color: red;
+
+    vertical-align: top;
+    text-overflow: ellipsis;   
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.marker-resize-handle {
+    position: absolute;
+    background: red;
+}
+.w {
+    right: 0;
+    top: 0;
+    width: 10px;
+    height: 100%;
+}
+
+.wh {
+    right: 0;
+    bottom: 0;
+    width: 10px;
+    height: 10px;
 }

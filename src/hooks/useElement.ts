@@ -8,7 +8,7 @@ export interface IElementDataState {
     scale?: number
 }
 
-const useElement = <T extends HTMLElement>(initialWidth: number, initialHeight: number): [
+const useElement = <T extends HTMLElement>(initialWidth: number, initialHeight: number, initialScale?: number): [
     React.MutableRefObject<T|null>,
     IElementDataState,
     (newWidth: number, newHeight: number) => void
@@ -20,14 +20,15 @@ const useElement = <T extends HTMLElement>(initialWidth: number, initialHeight: 
         positionY: 0,
         width: (initialWidth >= 0) ? initialWidth : 0, 
         height: (initialHeight >= 0) ? initialHeight : 0, 
-        scale: 1
+        scale: (initialScale) ? initialScale : undefined
     })
     
-    const resizeElement = useCallback((newWidth: number, newHeight: number) => {
+    const resizeElement = useCallback((newWidth: number, newHeight: number, newScale?: number) => {
         setElementData(prevElementData => ({
             ...prevElementData,
             width: newWidth, 
-            height: newHeight
+            height: newHeight,
+            scale: (newScale) ? newScale : prevElementData.scale
         }))
     },[]);
 
@@ -51,7 +52,7 @@ const useElement = <T extends HTMLElement>(initialWidth: number, initialHeight: 
         element.style.width = `${elementData.width}px`;
         element.style.height = `${elementData.height}px`;
 
-        if (elementData.scale) element.style.transform = `scale(${elementData.scale})`;
+        // if (elementData.scale) element.style.transform = `scale(${elementData.scale})`;
     },[elementRef, elementData])
 
     return [elementRef, elementData, resizeElement]

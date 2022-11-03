@@ -4,7 +4,7 @@ import useResizeMarker from '../../../../hooks/useResizableMarker';
 
 import { IElementDataState } from '../../../../hooks/useElement';
 
-import '../marker/style.css';
+import '../../style.css';
 import './style.css';
 import PrescriptionMarkerContext, { PrescriptionMarkerContextType } from '../../../../context/prescription-marker-context/PrescriptionMarkerContext';
 import TextSettingsContext, { TextSettingsContextType } from '../../../../context/text-settings-context/TextSettingsContext';
@@ -13,10 +13,14 @@ import PrescriptionListContext, { PrescriptionListContextType } from '../../../.
 
 interface IPrescriptionMarkerProps {
   containerData: IElementDataState
-  hideBorder: boolean
+  hideGuidelines: boolean
 }
 
-const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({containerData, hideBorder}) => {
+const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({containerData, hideGuidelines}) => {
+  const markerStyle = {
+    border: `thin ${hideGuidelines ? 'rgba(0,0,0,0)' : 'red'} solid`
+  }
+  
   const {prescriptionMarkerState, prescriptionMarkerDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
   const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType
   const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType;
@@ -59,13 +63,13 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
   
   useResizeMarker(markerResizeHandleRef, saveMarkerDimensions, width, height, containerData.positionX + containerData.width, containerData.positionY + containerData.height)
   return (
-    <div className='Marker'  ref={markerRef}>
+    <div className='Marker' style={markerStyle} ref={markerRef}>
       <div className='prescription-marker-cover' />
-      <p className='marker-label'>Prescription List</p>
+      <p className={`marker-label${hideGuidelines ? ' hidden' : ''}`}>Prescription List</p>
       <div className='prescription-marker-text-container'>
         {prescriptionMarkerItemElements}
       </div>
-      <div className='marker-resize-handle wh' ref={markerResizeHandleRef}></div>
+      <div className={`marker-resize-handle wh${hideGuidelines ? ' hidden' : ''}`} ref={markerResizeHandleRef}></div>
     </div>
   );
 };

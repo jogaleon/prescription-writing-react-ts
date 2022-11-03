@@ -16,8 +16,8 @@ const PrescriptionMarkerItem: React.FunctionComponent<IPrescriptionMarkerItemPro
 
     return (
     <div style={prescriptionMarkerItemStyle} className="PrescriptionMarkerItem">
-        <p className="prescription-marker-text-line1">{medicineName} ({dosage}/{type}) #{quantity}</p>
-        <p className="prescription-marker-text-line2">S. {directions}</p>
+        <p className="marker-text">{medicineName} ({dosage}/{type}) #{quantity}</p>
+        <p className="marker-text">S. {directions}</p>
     </div>
   );
 };

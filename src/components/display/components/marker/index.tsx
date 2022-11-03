@@ -7,20 +7,20 @@ import MarkerData from '../../../../types/state/markerData';
 
 import { MarkerActionType } from '../../../../context/marker-context/MarkerContext';
 
-import './style.css';
+import '../../style.css';
 
 interface IMarkerProps {
   containerData: IElementDataState
   marker: MarkerData
   markersDispatch: React.Dispatch<MarkerActionType>
   fontWeight: string
-  hideBorder: boolean
+  hideGuidelines: boolean
 }
 
-const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, markersDispatch, fontWeight, hideBorder}) => {
+const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, markersDispatch, fontWeight, hideGuidelines}) => {
   const markerStyle = {
     height: `${marker.textSize}px`,
-    border: (hideBorder) ? '' : 'thin red solid'
+    border: `thin ${hideGuidelines ? 'rgba(0,0,0,0)' : 'red'} solid`
   }
 
   const markerTextStyle = {
@@ -57,9 +57,9 @@ const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, m
   
   return (
     <div className='Marker' style={markerStyle} ref={markerRef}>
-      <p className={`marker-label${hideBorder ? ' hidden' : ''}`}>{marker.label}</p>
+      <p className={`marker-label${hideGuidelines ? ' hidden' : ''}`}>{marker.label}</p>
       <div className='marker-text' style={markerTextStyle}>{marker.text}</div>
-      <div className={`marker-resize-handle w${hideBorder ? ' hidden' : ''}`} ref={markerResizeHandleRef}></div>
+      <div className={`marker-resize-handle w${hideGuidelines ? ' hidden' : ''}`} ref={markerResizeHandleRef}></div>
     </div>
   );
 };
