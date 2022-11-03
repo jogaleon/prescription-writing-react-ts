@@ -1,5 +1,5 @@
 .PrescriptionMarkerItem { 
-    color: red;
+    margin-bottom: 20px;
 }
 
 .PrescriptionMarkerItem p {
@@ -8,4 +8,9 @@
     text-overflow: ellipsis;   
     white-space: nowrap;
     overflow: hidden;
+}
+
+.marker-text {
+    display: flex;
+    justify-content: space-between;
 }

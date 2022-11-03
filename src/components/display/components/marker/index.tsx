@@ -13,17 +13,19 @@ interface IMarkerProps {
   containerData: IElementDataState
   marker: MarkerData
   markersDispatch: React.Dispatch<MarkerActionType>
+  color: string
   fontWeight: string
   hideGuidelines: boolean
 }
 
-const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, markersDispatch, fontWeight, hideGuidelines}) => {
+const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, markersDispatch, color, fontWeight, hideGuidelines}) => {
   const markerStyle = {
     height: `${marker.textSize}px`,
     border: `thin ${hideGuidelines ? 'rgba(0,0,0,0)' : 'red'} solid`
   }
 
   const markerTextStyle = {
+    color: color,
     fontSize: `${marker.textSize}px`,
     fontWeight: fontWeight
   }

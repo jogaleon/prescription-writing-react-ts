@@ -48,12 +48,15 @@
     height: 100%;
     width: 100%;
     
-    color: red;
+    /* text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; */
 
     vertical-align: top;
     text-overflow: ellipsis;   
     white-space: nowrap;
     overflow: hidden;
+
+    display: flex;
+    justify-content: space-between;
 }
 
 .marker-resize-handle {

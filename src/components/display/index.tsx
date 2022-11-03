@@ -115,6 +115,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             containerData={containerData}
             marker={marker}
             markersDispatch={markersDispatch}
+            color={textSettingsState.color}
             fontWeight={textSettingsState.fontWeight}
             hideGuidelines={hideGuidelines}
         />

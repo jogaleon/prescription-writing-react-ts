@@ -53,6 +53,8 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
   const prescriptionMarkerItemElements = prescriptionListState.map(prescription => {
     return <PrescriptionMarkerItem 
       textSize={textSettingsState.prescriptionTextSize}
+      color={textSettingsState.color}
+      fontWeight={textSettingsState.fontWeight}
       medicineName={prescription.medicineName}
       dosage={prescription.dosage}
       type={prescription.type}
