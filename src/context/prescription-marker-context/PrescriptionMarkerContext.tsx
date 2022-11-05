@@ -1,6 +1,7 @@
 
 import { IContextProviderProps } from '../../types/context/contextProviderProps';
 import { createContext, useContext, useEffect, useReducer } from "react";
+import { v4 as uuid } from 'uuid';
 
 import MARKER_SETTINGS from '../../settings/markerSettings';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
@@ -71,6 +72,7 @@ const prescriptionMarkerReducer = (state: PrescriptionMarkerData, action: Prescr
 
 const PrescriptionMarkerContext = createContext<PrescriptionMarkerContextType | null>(null);
 const initialMarkerState: PrescriptionMarkerData = {
+    id: '',
     x: 0,
     y: 0,
     width: 0,

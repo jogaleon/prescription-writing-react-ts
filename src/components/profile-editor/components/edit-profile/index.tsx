@@ -1,9 +1,10 @@
 import { useContext, useState, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 
-
 import ProfileContext, { ProfileContextType } from "../../../../context/profile-context/ProfileContext";
+
 import MARKER_SETTINGS from '../../../../settings/markerSettings';
+import TEXT_SETTINGS from '../../../../settings/textSettings';
 
 interface IEditProfileProps {
     profileId?: string
@@ -37,6 +38,7 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
                 markers: [],
                 prescriptionList: [],
                 prescriptionMarker: {
+                    id: uuid(),
                     x: 0,
                     y: 0,
                     width: MARKER_SETTINGS.MIN_WIDTH,

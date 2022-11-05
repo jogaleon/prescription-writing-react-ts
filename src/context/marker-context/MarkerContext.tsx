@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import MarkerData from '../../types/state/markerData';
 import MARKER_SETTINGS from '../../settings/markerSettings';
+import TEXT_SETTINGS from '../../settings/textSettings';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
 
 export type MarkerActionType =
@@ -28,7 +29,7 @@ const addMarker = (state: MarkerData[]) => {
         id: uuid(),
         label: `Marker${state.length + 1}`,
         text: '',
-        textSize: MARKER_SETTINGS.DEFAULT_TEXT_SIZE,
+        textSize: TEXT_SETTINGS.DEFAULT_MARKER_TEXT_SIZE,
         x: 0,
         y: 0,
         width: 100,

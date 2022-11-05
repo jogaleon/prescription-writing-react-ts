@@ -1,4 +1,5 @@
 type PrescriptionMarkerData = {
+    id: string
     x: number
     y: number
     width: number
@@ -6,6 +7,7 @@ type PrescriptionMarkerData = {
 }
 
 export type PrescriptionMarkerDataChunk = {
+    id?: string
     x?: number
     y?: number
     width?: number
