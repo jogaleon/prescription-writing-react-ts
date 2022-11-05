@@ -33,7 +33,7 @@ const INITIAL_HEIGHT = 300;
 
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
-    const {prescriptionMarkerDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
+    const {prescriptionMarkerState, prescriptionMarkerDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
@@ -145,12 +145,23 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 </div>
                 <div className="display-containers">
                     <div className='display-canvas-container' ref={containerRef}>
-                        <PrescriptionMarker containerData={containerData} hideGuidelines={hideGuidelines} />
+                        <PrescriptionMarker 
+                            prescriptionMarker={prescriptionMarkerState[0]} 
+                            prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
+                            containerData={containerData} 
+                            hideGuidelines={hideGuidelines} 
+                        />
                         {markerElements}
                         <canvas className='display-canvas' ref={canvasRef} />
                     </div>
 
                     <div className='display-canvas-container back' ref={backContainerRef}>
+                        <PrescriptionMarker 
+                            prescriptionMarker={prescriptionMarkerState[1]} 
+                            prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
+                            containerData={backContainerData} 
+                            hideGuidelines={hideGuidelines} 
+                        />
                     </div>
                 </div>
             </div>

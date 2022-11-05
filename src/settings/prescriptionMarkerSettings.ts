@@ -1,4 +1,3 @@
-import PrescriptionMarkerData from './../types/state/prescriptionMarkerData';
 type PrescriptionMarkerSettingsType = {
     DEFAULT_WIDTH: number
     DEFAULT_HEIGHT: number

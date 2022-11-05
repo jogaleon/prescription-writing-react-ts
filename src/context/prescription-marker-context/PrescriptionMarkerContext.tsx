@@ -8,76 +8,84 @@ import ProfileContext, { ProfileContextType } from '../profile-context/ProfileCo
 import PrescriptionMarkerData, { PrescriptionMarkerDataChunk } from '../../types/state/prescriptionMarkerData';
 
 export type PrescriptionMarkerActionType =
-    {type: 'SAVE_PRESCRIPTION_MARKER_POSITION'; payload: {newX: number, newY: number}} |
-    {type: 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS'; payload: {newW: number, newH: number}} |  
-    {type: 'EDIT_PRESCRIPTION_MARKER'; payload: PrescriptionMarkerDataChunk} |
-    {type: 'LOAD_PRESCRIPTION_MARKER'; payload: PrescriptionMarkerData} |
-    {type: 'RESET_PRESCRIPTION_MARKER'}
+    {type: 'SAVE_PRESCRIPTION_MARKER_POSITION'; payload: {id: string, newX: number, newY: number}} |
+    {type: 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS'; payload: {id: string, newW: number, newH: number}} |  
+    {type: 'EDIT_PRESCRIPTION_MARKER'; payload: {id: string, prescriptionMarkerDataChunk: PrescriptionMarkerDataChunk}} |
+    {type: 'LOAD_PRESCRIPTION_MARKERS'; payload: PrescriptionMarkerData[]} |
+    {type: 'RESET_PRESCRIPTION_MARKERS'}
 ;
 
 export type PrescriptionMarkerContextType = {
-    prescriptionMarkerState: PrescriptionMarkerData
+    prescriptionMarkerState: PrescriptionMarkerData[]
     prescriptionMarkerDispatch: React.Dispatch<PrescriptionMarkerActionType>
 }
 
 //Reducer
-const savePrescriptionMarkerPosition = (state: PrescriptionMarkerData, newX: number, newY: number) => {
-    return {
-        ...state,
+const savePrescriptionMarkerPosition = (state: PrescriptionMarkerData[], id: string, newX: number, newY: number) => {
+    return state.map(marker => (marker.id !== id) ? marker : {
+        ...marker,
         x: newX,
         y: newY
-    }
+    })
 }
 
-const savePrescriptionMarkerDimensions = (state: PrescriptionMarkerData, newW: number, newH: number) => {
-    return {
-        ...state,
+const savePrescriptionMarkerDimensions = (state: PrescriptionMarkerData[], id: string, newW: number, newH: number) => {
+    return state.map(marker => (marker.id !== id) ? marker : {
+        ...marker,
         width: newW,
         height: newH
-    }
+    })
 }
 
-const editPrescriptionMarker = (state: PrescriptionMarkerData, prescriptionMarkerDataChunk: PrescriptionMarkerDataChunk) => {
-    return {
-        ...state,
+const editPrescriptionMarker = (state: PrescriptionMarkerData[], id: string, prescriptionMarkerDataChunk: PrescriptionMarkerDataChunk) => {
+    return state.map(marker => (marker.id !== id) ? marker : {
+        ...marker,
         ...prescriptionMarkerDataChunk
-    }
+    })
 }
 
-const loadPrescriptionMarker = (marker: PrescriptionMarkerData) => {
-    return marker
+const loadPrescriptionMarkers = (markers: PrescriptionMarkerData[]) => {
+    return markers
 }
 
 
-const resetPrescriptionMarker = (state: PrescriptionMarkerData) => {;
-    return {
-        ...state,
+const resetPrescriptionMarkers = (state: PrescriptionMarkerData[]) => {
+    return state.map(marker => ({
+        ...marker,
         x: 0,
         y: 0,
         width: MARKER_SETTINGS.MIN_WIDTH,
         height: MARKER_SETTINGS.MIN_HEIGHT
-    }
+    }))
 }
 
-const prescriptionMarkerReducer = (state: PrescriptionMarkerData, action: PrescriptionMarkerActionType) => {
+const prescriptionMarkerReducer = (state: PrescriptionMarkerData[], action: PrescriptionMarkerActionType) => {
     switch(action.type) {
-        case 'SAVE_PRESCRIPTION_MARKER_POSITION': return savePrescriptionMarkerPosition(state, action.payload.newX, action.payload.newY)
-        case 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS': return savePrescriptionMarkerDimensions(state, action.payload.newW, action.payload.newH)
-        case 'EDIT_PRESCRIPTION_MARKER': return editPrescriptionMarker(state, action.payload)
-        case 'LOAD_PRESCRIPTION_MARKER': return loadPrescriptionMarker(action.payload)
-        case 'RESET_PRESCRIPTION_MARKER': return resetPrescriptionMarker(state)
+        case 'SAVE_PRESCRIPTION_MARKER_POSITION': return savePrescriptionMarkerPosition(state, action.payload.id, action.payload.newX, action.payload.newY)
+        case 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS': return savePrescriptionMarkerDimensions(state, action.payload.id, action.payload.newW, action.payload.newH)
+        case 'EDIT_PRESCRIPTION_MARKER': return editPrescriptionMarker(state, action.payload.id, action.payload.prescriptionMarkerDataChunk)
+        case 'LOAD_PRESCRIPTION_MARKERS': return loadPrescriptionMarkers(action.payload)
+        case 'RESET_PRESCRIPTION_MARKERS': return resetPrescriptionMarkers(state)
         default: throw new Error(`Invalid dispatch action`)
     }
 }
 
 const PrescriptionMarkerContext = createContext<PrescriptionMarkerContextType | null>(null);
-const initialMarkerState: PrescriptionMarkerData = {
-    id: '',
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-}
+const initialMarkerState: PrescriptionMarkerData[] = [
+    {
+        id: uuid(),
+        x: 0,
+        y: 0,
+        width: MARKER_SETTINGS.MIN_WIDTH,
+        height: MARKER_SETTINGS.MIN_HEIGHT,
+    }, {
+        id: uuid(),
+        x: 0,
+        y: 0,
+        width: MARKER_SETTINGS.MIN_WIDTH,
+        height: MARKER_SETTINGS.MIN_HEIGHT,
+    }
+]
 
 //Context Provider
 export const PrescriptionMarkerContextProvider = ({children}: IContextProviderProps) => {
@@ -88,7 +96,7 @@ export const PrescriptionMarkerContextProvider = ({children}: IContextProviderPr
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
         if (!activeProfile?.prescriptionMarker) return
-        prescriptionMarkerDispatch({type:'LOAD_PRESCRIPTION_MARKER', payload: activeProfile.prescriptionMarker})
+        prescriptionMarkerDispatch({type:'LOAD_PRESCRIPTION_MARKERS', payload: activeProfile.prescriptionMarker})
     },[activeProfileId])
 
     return (

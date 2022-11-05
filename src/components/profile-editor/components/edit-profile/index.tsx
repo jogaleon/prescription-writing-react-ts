@@ -11,6 +11,22 @@ interface IEditProfileProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const DEFAULT_PRESCRIPTION_MARKERS = [
+    {
+        id: uuid(),
+        x: 0,
+        y: 0,
+        width: MARKER_SETTINGS.MIN_WIDTH,
+        height: MARKER_SETTINGS.MIN_HEIGHT,
+    }, {
+        id: uuid(),
+        x: 0,
+        y: 0,
+        width: MARKER_SETTINGS.MIN_WIDTH,
+        height: MARKER_SETTINGS.MIN_HEIGHT,
+    }
+]
+
 const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, setModalOpen}) => {
     const {profilesState, profilesDispatch} = useContext(ProfileContext) as ProfileContextType
     const selectedProfile = useMemo(() => profilesState.find(profile => profile.id === profileId),[profilesState, profileId])
@@ -37,13 +53,7 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
                 imageData: null,
                 markers: [],
                 prescriptionList: [],
-                prescriptionMarker: {
-                    id: uuid(),
-                    x: 0,
-                    y: 0,
-                    width: MARKER_SETTINGS.MIN_WIDTH,
-                    height: MARKER_SETTINGS.MIN_HEIGHT,
-                },
+                prescriptionMarker: DEFAULT_PRESCRIPTION_MARKERS,
                 textSettings: {
                     markerGlobalTextSize: '12',
                     prescriptionTextSize: '12',

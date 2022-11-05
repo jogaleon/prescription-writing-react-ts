@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useMemo } from 'react';
 import useDraggableMarker from '../../../../hooks/useDraggableMarker';
 import useResizeWidthMarker from '../../../../hooks/useResizableWidthMarker';
 
@@ -10,25 +10,25 @@ import { MarkerActionType } from '../../../../context/marker-context/MarkerConte
 import '../../style.css';
 
 interface IMarkerProps {
-  containerData: IElementDataState
-  marker: MarkerData
-  markersDispatch: React.Dispatch<MarkerActionType>
   color: string
   fontWeight: string
+  marker: MarkerData
+  markersDispatch: React.Dispatch<MarkerActionType>
+  containerData: IElementDataState
   hideGuidelines: boolean
 }
 
 const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, markersDispatch, color, fontWeight, hideGuidelines}) => {
-  const markerStyle = {
+  const markerStyle = useMemo(() => ({
     height: `${marker.textSize}px`,
     border: `thin ${hideGuidelines ? 'rgba(0,0,0,0)' : 'red'} solid`
-  }
+  }),[marker.textSize, hideGuidelines])
 
-  const markerTextStyle = {
+  const markerTextStyle = useMemo(() => ({
     color: color,
     fontSize: `${marker.textSize}px`,
     fontWeight: fontWeight
-  }
+  }),[color, fontWeight, marker.textSize])
 
   const markerRef = useRef<HTMLDivElement | null>(null);
   const markerResizeHandleRef = useRef<HTMLDivElement | null>(null);
