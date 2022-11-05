@@ -1,17 +1,14 @@
+import PrescriptionData from '../../../../../types/state/prescriptionData';
 import './style.css';
 
 interface IPrescriptionMarkerItemProps {
     textSize: string
     color: string
     fontWeight: string
-    medicineName: string
-    dosage: string
-    type: string
-    quantity: string
-    directions: string
+    prescription: PrescriptionData
 }
  
-const PrescriptionMarkerItem: React.FunctionComponent<IPrescriptionMarkerItemProps> = ({textSize, color, fontWeight, medicineName, dosage, type, quantity, directions}) => {
+const PrescriptionMarkerItem: React.FunctionComponent<IPrescriptionMarkerItemProps> = ({textSize, color, fontWeight, prescription}) => {
     const prescriptionMarkerItemStyle = {
         color: color,
         fontSize: `${textSize}px`,
@@ -21,11 +18,11 @@ const PrescriptionMarkerItem: React.FunctionComponent<IPrescriptionMarkerItemPro
     return (
     <div style={prescriptionMarkerItemStyle} className="PrescriptionMarkerItem">
         <p className="marker-text">
-            <span>•{medicineName}</span>
-            <span>({dosage}/{type})</span>
-            <span>#{quantity}</span>
+            <span>•{prescription.medicineName}</span>
+            <span>({prescription.dosage}/{prescription.type})</span>
+            <span>#{prescription.quantity}</span>
         </p>
-        <p className="marker-text">S. {directions}</p>
+        <p className="marker-text">S. {prescription.directions}</p>
     </div>
   );
 };

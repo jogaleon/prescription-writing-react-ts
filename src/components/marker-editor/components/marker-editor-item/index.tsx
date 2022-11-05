@@ -19,7 +19,7 @@ interface IInputState {
 }
 
 const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = ({marker, markersDispatch, globalTextSize}) => {
-    const [isTextLocked, setIsTextLocked] = useState(false)
+    const [isTextLocked, setIsTextLocked] = useState(true)
     const [input, setInput] = useState<IInputState>({
         label: marker.label,
         text: marker.text,

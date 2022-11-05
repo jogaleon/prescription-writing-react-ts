@@ -27,12 +27,13 @@ interface IDisplayProps {
     height: number
 }
 
-const MAX_WIDTH = 500;
+const MAX_WIDTH = 600;
 const INITIAL_WIDTH = 300;
 const INITIAL_HEIGHT = 300;
 
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
+    const {prescriptionMarkerDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
@@ -40,19 +41,25 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId])
 
     const [hideGuidelines, setHideGuidelines] = useState(true);
-    const [printScale, setPrintScale] = useState(1);
 
-    const [canvasRef, resizeCanvas, drawImageToCanvas, writeText, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
+    const [canvasRef, resizeCanvas, drawImageToCanvas, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
+    const [backContainerRef, backContainerData, resizeBackContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
     
     //Display print
-    const printStyle = useMemo(() => `
-        @media print {
-            .display-canvas-container {
-                transform: scale(${(activeProfile?.printWidth || 200) / containerData.width}, ${(activeProfile?.printHeight || 200) / containerData.height});
+    const printStyle = useMemo(() => {
+        const scaleWidth = (activeProfile?.printWidth || 200) / containerData.width;
+        const scaleHeight = (activeProfile?.printHeight || 200) / containerData.height;
+
+        return `
+            @media print {
+                .display-canvas-container {
+                    transform: scale(${scaleWidth}, ${scaleHeight});
+                }
             }
-        }
-    `,[activeProfile, containerData])
+        `
+    },[activeProfile, containerData])
+    
     const printPrescription = useReactToPrint({
         content: () => containerRef.current,
         pageStyle: printStyle
@@ -62,9 +69,10 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         setHideGuidelines(true)
         setTimeout(() => {
             printPrescription()
-        },1000)
+        }, 50)
     }
 
+    //Image File Input
     const handleInputFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return
         const data = await readFile(e.target.files[0]);
@@ -83,6 +91,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         const container = containerRef.current;
         if (!canvas || !container) return;
         markersDispatch({type:'RESET_MARKERS'});
+        // prescriptionMarkerDispatch({type:'RESET_PRESCRIPTION_MARKER'});
 
         const fitDisplayToImage = (imageData: ImageData) => {
             const w = imageData.nativeWidth;
@@ -90,6 +99,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             const s = imageData.scaleFactor;
             
             resizeContainer(w * s, h * s);
+            resizeBackContainer(w * s, h * s);
             resizeCanvas(w, h, s);
         }
 
@@ -133,10 +143,15 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                     />
                     <button onClick={() => setHideGuidelines(prevHideGuidelines => !prevHideGuidelines)}>{hideGuidelines ? 'Show marker guidelines' : 'Hide marker guidelines'}</button>
                 </div>
-                <div className='display-canvas-container' ref={containerRef}>
-                    <PrescriptionMarker containerData={containerData} hideGuidelines={hideGuidelines} />
-                    {markerElements}
-                    <canvas className='display-canvas' ref={canvasRef} />
+                <div className="display-containers">
+                    <div className='display-canvas-container' ref={containerRef}>
+                        <PrescriptionMarker containerData={containerData} hideGuidelines={hideGuidelines} />
+                        {markerElements}
+                        <canvas className='display-canvas' ref={canvasRef} />
+                    </div>
+
+                    <div className='display-canvas-container back' ref={backContainerRef}>
+                    </div>
                 </div>
             </div>
             <button onClick={handlePrint}>Print Prescription</button>

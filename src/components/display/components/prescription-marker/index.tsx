@@ -43,7 +43,7 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
     }})    
   },[prescriptionMarkerDispatch])
 
-  useDraggableMarker(markerRef, saveMarkerPosition, x, y, {
+  useDraggableMarker(markerRef, saveMarkerPosition, prescriptionMarkerState.x, prescriptionMarkerState.y , {
     sX: containerData.positionX,
     sY: containerData.positionY,
     eX: containerData.positionX + containerData.width,
@@ -51,15 +51,12 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
   })
 
   const prescriptionMarkerItemElements = prescriptionListState.map(prescription => {
-    return <PrescriptionMarkerItem 
+    return <PrescriptionMarkerItem
+      key={prescription.id}
       textSize={textSettingsState.prescriptionTextSize}
       color={textSettingsState.color}
       fontWeight={textSettingsState.fontWeight}
-      medicineName={prescription.medicineName}
-      dosage={prescription.dosage}
-      type={prescription.type}
-      quantity={prescription.quantity}
-      directions={prescription.directions}
+      prescription={prescription} 
     />
   })
   

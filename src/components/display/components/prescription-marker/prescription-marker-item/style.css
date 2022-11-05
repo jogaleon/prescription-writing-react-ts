@@ -9,8 +9,3 @@
     white-space: nowrap;
     overflow: hidden;
 }
-
-.marker-text {
-    display: flex;
-    justify-content: space-between;
-}

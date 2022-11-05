@@ -8,6 +8,11 @@
     flex-direction: column;
 }
 
+.display-containers {
+    display: flex;
+    gap: 10px
+}
+
 .display-canvas-container {
     position: relative;
 
