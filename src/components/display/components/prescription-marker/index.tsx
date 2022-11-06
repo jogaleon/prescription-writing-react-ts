@@ -20,7 +20,6 @@ interface IPrescriptionMarkerProps {
 }
 
 const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({prescriptionMarker, prescriptionMarkerDispatch, containerData, hideGuidelines}) => {
-  console.log(prescriptionMarker.id)
   const markerStyle = {
     border: `thin ${hideGuidelines ? 'rgba(0,0,0,0)' : 'red'} solid`
   }
@@ -47,6 +46,8 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
     }})    
   },[prescriptionMarkerDispatch, prescriptionMarker.id])
 
+  
+
   useDraggableMarker(
     markerRef, 
     saveMarkerPosition, 
@@ -68,7 +69,6 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
     containerData.positionX + containerData.width, 
     containerData.positionY + containerData.height
   )
-  
   const prescriptionMarkerItemElements = prescriptionListState.map(prescription => {
     return <PrescriptionMarkerItem
       key={prescription.id}

@@ -40,12 +40,12 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
 
     const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId])
 
-    const [hideGuidelines, setHideGuidelines] = useState(true);
+    const [hideGuidelines, setHideGuidelines] = useState(false);
 
     const [canvasRef, resizeCanvas, drawImageToCanvas, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [backContainerRef, backContainerData, resizeBackContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
-    
+
     //Display print
     const printStyle = useMemo(() => {
         const scaleWidth = (activeProfile?.printWidth || 200) / containerData.width;
@@ -89,9 +89,9 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     useEffect(() => {
         const canvas = canvasRef.current;
         const container = containerRef.current;
-        if (!canvas || !container) return;
+        const backContainer = backContainerRef.current;
+        if (!canvas || !container || !backContainer) return;
         markersDispatch({type:'RESET_MARKERS'});
-        // prescriptionMarkerDispatch({type:'RESET_PRESCRIPTION_MARKER'});
 
         const fitDisplayToImage = (imageData: ImageData) => {
             const w = imageData.nativeWidth;
@@ -105,6 +105,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
 
         const resetDisplay = () => {
             resizeContainer(INITIAL_WIDTH, INITIAL_HEIGHT);
+            resizeBackContainer(INITIAL_WIDTH, INITIAL_HEIGHT);
             resizeCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);            
         }
         
@@ -115,8 +116,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             clearCanvas()
             resetDisplay()
         }
-
-    },[imageState, canvasRef, containerRef])
+    },[imageState, canvasRef, containerRef, backContainerRef])
 
     //Marker Elements 
     const markerElements = markersState.map((marker, i) => {
@@ -130,6 +130,21 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             hideGuidelines={hideGuidelines}
         />
     })
+    // console.log(containerData)
+    console.log(backContainerData)
+    const prescriptionMarkerElement = prescriptionMarkerState.length === 0 ? null : <PrescriptionMarker 
+        prescriptionMarker={prescriptionMarkerState[0]} 
+        prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
+        containerData={containerData} 
+        hideGuidelines={hideGuidelines} 
+    />;
+
+    const backPrescriptionMarkerElement = prescriptionMarkerState.length === 0 ? null : <PrescriptionMarker 
+        prescriptionMarker={prescriptionMarkerState[1]} 
+        prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
+        containerData={backContainerData} 
+        hideGuidelines={hideGuidelines} 
+    />;
 
     return (
         <div>
@@ -145,23 +160,12 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 </div>
                 <div className="display-containers">
                     <div className='display-canvas-container' ref={containerRef}>
-                        <PrescriptionMarker 
-                            prescriptionMarker={prescriptionMarkerState[0]} 
-                            prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
-                            containerData={containerData} 
-                            hideGuidelines={hideGuidelines} 
-                        />
+                        {prescriptionMarkerElement}
                         {markerElements}
                         <canvas className='display-canvas' ref={canvasRef} />
                     </div>
-
                     <div className='display-canvas-container back' ref={backContainerRef}>
-                        <PrescriptionMarker 
-                            prescriptionMarker={prescriptionMarkerState[1]} 
-                            prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
-                            containerData={backContainerData} 
-                            hideGuidelines={hideGuidelines} 
-                        />
+                        {backPrescriptionMarkerElement}
                     </div>
                 </div>
             </div>

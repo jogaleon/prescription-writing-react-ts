@@ -42,7 +42,7 @@ const useElement = <T extends HTMLElement>(initialWidth: number, initialHeight: 
             positionX: element.getBoundingClientRect().left + window.scrollX,
             positionY: element.getBoundingClientRect().top + window.scrollY
         }))
-    },[elementRef])
+    },[elementRef, elementData.width, elementData.height])
     
     //Setting element width
     useEffect(() => {

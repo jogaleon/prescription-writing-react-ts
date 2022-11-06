@@ -71,28 +71,13 @@ const prescriptionMarkerReducer = (state: PrescriptionMarkerData[], action: Pres
 }
 
 const PrescriptionMarkerContext = createContext<PrescriptionMarkerContextType | null>(null);
-const initialMarkerState: PrescriptionMarkerData[] = [
-    {
-        id: uuid(),
-        x: 0,
-        y: 0,
-        width: MARKER_SETTINGS.MIN_WIDTH,
-        height: MARKER_SETTINGS.MIN_HEIGHT,
-    }, {
-        id: uuid(),
-        x: 0,
-        y: 0,
-        width: MARKER_SETTINGS.MIN_WIDTH,
-        height: MARKER_SETTINGS.MIN_HEIGHT,
-    }
-]
+const initialMarkerState: PrescriptionMarkerData[] = []
 
 //Context Provider
 export const PrescriptionMarkerContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
     const [prescriptionMarkerState, prescriptionMarkerDispatch] = useReducer(prescriptionMarkerReducer, initialMarkerState);
-    // console.log(prescriptionMarkerState);
-
+    // console.log(prescriptionMarkerState[1])
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
         if (!activeProfile?.prescriptionMarker) return
