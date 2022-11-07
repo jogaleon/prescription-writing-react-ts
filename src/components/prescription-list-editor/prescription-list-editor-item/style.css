@@ -6,7 +6,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 50px;
     grid-template-rows: 40px 40px;
     grid-template-areas:
-        "medicine dosage type quantity delete"
+        "medicine dosage type quantity buttons"
         "directions directions directions directions directions"
     ;
     gap: 5px;
@@ -19,8 +19,10 @@
 label {
     font-size: 0.8rem;
 }
-.button-delete{
-    grid-area: delete;
+.button-container{
+    grid-area: buttons;
+    display: flex;
+    gap: 10px;
 }
 
 .input-container-directions {

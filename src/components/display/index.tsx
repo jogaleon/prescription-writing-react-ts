@@ -21,6 +21,8 @@ import TextSettingsContext, { TextSettingsContextType } from '../../context/text
 
 import './style.css'
 import ProfileContext, { ProfileContextType } from '../../context/profile-context/ProfileContext';
+import splitArray from '../../global-utils/splitArray';
+import PrescriptionData from '../../types/state/prescriptionData';
 
 interface IDisplayProps {
     width: number
@@ -34,19 +36,30 @@ const INITIAL_HEIGHT = 300;
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
     const {prescriptionMarkerState, prescriptionMarkerDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
+    const {prescriptionListState, splitPrescriptionId} = useContext(PrescriptionListContext) as PrescriptionListContextType;
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
-
-    const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId])
-
-    const [hideGuidelines, setHideGuidelines] = useState(false);
-
+    const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId]);
+    
     const [canvasRef, resizeCanvas, drawImageToCanvas, clearCanvas] = useCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
     const [backContainerRef, backContainerData, resizeBackContainer] = useElement<HTMLDivElement>(INITIAL_WIDTH, INITIAL_HEIGHT);
+    
+    const [hideGuidelines, setHideGuidelines] = useState(false);
+    const [frontPrescriptionList, backPrescriptionList] = useMemo<PrescriptionData[][]>(() => {
+        let splitIndex = prescriptionListState.findIndex(prescription => prescription.id === splitPrescriptionId);
+        // if (splitIndex === -1 || splitIndex === undefined) splitIndex = 0;
 
-    //Display print
+        console.log(splitIndex)
+        console.log(splitPrescriptionId)
+        return splitArray(splitIndex, prescriptionListState)
+    },[prescriptionListState, splitPrescriptionId])
+    // console.log(frontPrescriptionList, backPrescriptionList)
+
+    //HANDLERS
+
+    //Print
     const printStyle = useMemo(() => {
         const scaleWidth = (activeProfile?.printWidth || 200) / containerData.width;
         const scaleHeight = (activeProfile?.printHeight || 200) / containerData.height;
@@ -85,6 +98,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         }})
     }
 
+    //SIDE EFFECTS
     //Resize canvas/container and draw image
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -116,9 +130,9 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             clearCanvas()
             resetDisplay()
         }
-    },[imageState, canvasRef, containerRef, backContainerRef])
+    },[imageState, canvasRef, containerRef, backContainerRef]);
 
-    //Marker Elements 
+    //ELEMENTS
     const markerElements = markersState.map((marker, i) => {
         return <Marker 
             key={marker.id}
@@ -130,18 +144,19 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             hideGuidelines={hideGuidelines}
         />
     })
-    // console.log(containerData)
-    console.log(backContainerData)
+
     const prescriptionMarkerElement = prescriptionMarkerState.length === 0 ? null : <PrescriptionMarker 
         prescriptionMarker={prescriptionMarkerState[0]} 
         prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
         containerData={containerData} 
         hideGuidelines={hideGuidelines} 
+        prescriptionList={frontPrescriptionList}
     />;
 
     const backPrescriptionMarkerElement = prescriptionMarkerState.length === 0 ? null : <PrescriptionMarker 
         prescriptionMarker={prescriptionMarkerState[1]} 
-        prescriptionMarkerDispatch={prescriptionMarkerDispatch} 
+        prescriptionMarkerDispatch={prescriptionMarkerDispatch}      
+        prescriptionList={backPrescriptionList}
         containerData={backContainerData} 
         hideGuidelines={hideGuidelines} 
     />;

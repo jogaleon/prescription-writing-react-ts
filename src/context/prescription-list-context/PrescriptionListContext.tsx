@@ -1,5 +1,5 @@
 import { IContextProviderProps } from '../../types/context/contextProviderProps';
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { v4 as uuid } from "uuid";
 import PrescriptionData, { PrescriptionDataChunk } from '../../types/state/prescriptionData';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
@@ -15,6 +15,8 @@ export type PrescriptionListActionType =
 export type PrescriptionListContextType = {
     prescriptionListState: PrescriptionData[]
     prescriptionListDispatch: React.Dispatch<PrescriptionListActionType>
+    splitPrescriptionId: string | null
+    saveSplitPrescriptionId: (id: string) => void
 }
 
 //Reducer
@@ -67,6 +69,9 @@ const initialState: PrescriptionData[] = []
 export const PrescriptionListContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
     const [prescriptionListState, prescriptionListDispatch] = useReducer(markersReducer, initialState);
+    const [splitPrescriptionId, setSplitPrescriptionId] = useState<string | null>(null);
+    const saveSplitPrescriptionId = (id: string) => setSplitPrescriptionId(prevId => (prevId && prevId === id) ? null : id);
+    // console.log(splitPrescritionId)
     
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
@@ -75,7 +80,7 @@ export const PrescriptionListContextProvider = ({children}: IContextProviderProp
     },[activeProfileId])
 
     return (
-        <PrescriptionListContext.Provider value={{prescriptionListState, prescriptionListDispatch}}>
+        <PrescriptionListContext.Provider value={{prescriptionListState, prescriptionListDispatch, splitPrescriptionId, saveSplitPrescriptionId}}>
             {children}
         </PrescriptionListContext.Provider>
     )

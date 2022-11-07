@@ -8,7 +8,7 @@ interface IPrescriptionListEditorProps {
 }
 
 const PrescriptionListEditor: React.FunctionComponent<IPrescriptionListEditorProps> = (props) => {
-  const {prescriptionListState, prescriptionListDispatch} = useContext(PrescriptionListContext) as PrescriptionListContextType;
+  const {prescriptionListState, prescriptionListDispatch, splitPrescriptionId, saveSplitPrescriptionId} = useContext(PrescriptionListContext) as PrescriptionListContextType;
   const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType;
   const prescriptionListEditorItemElements = prescriptionListState.map(prescription => {
     return (
@@ -17,6 +17,8 @@ const PrescriptionListEditor: React.FunctionComponent<IPrescriptionListEditorPro
         prescription={prescription}
         prescriptionListDispatch={prescriptionListDispatch}
         prescriptionTextSize={textSettingsState.prescriptionTextSize}
+        splitPrescritionId={splitPrescriptionId}
+        saveSplitPrescriptionId={saveSplitPrescriptionId}
       />
     )
   })

@@ -11,22 +11,23 @@ import TextSettingsContext, { TextSettingsContextType } from '../../../../contex
 import PrescriptionMarkerItem from './prescription-marker-item';
 import PrescriptionListContext, { PrescriptionListContextType } from '../../../../context/prescription-list-context/PrescriptionListContext';
 import PrescriptionMarkerData from '../../../../types/state/prescriptionMarkerData';
+import PrescriptionData from '../../../../types/state/prescriptionData';
 
 interface IPrescriptionMarkerProps {
   prescriptionMarker: PrescriptionMarkerData
   prescriptionMarkerDispatch: React.Dispatch<PrescriptionMarkerActionType>
+  prescriptionList: PrescriptionData[]
   containerData: IElementDataState
   hideGuidelines: boolean
 }
 
-const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({prescriptionMarker, prescriptionMarkerDispatch, containerData, hideGuidelines}) => {
+const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({prescriptionMarker, prescriptionMarkerDispatch, prescriptionList, containerData, hideGuidelines}) => {
   const markerStyle = {
     border: `thin ${hideGuidelines ? 'rgba(0,0,0,0)' : 'red'} solid`
   }
   
-  const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType;
   const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType;
-
+  
   const markerRef = useRef<HTMLDivElement | null>(null);
   const markerResizeHandleRef = useRef<HTMLDivElement | null>(null);
 
@@ -69,13 +70,13 @@ const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({
     containerData.positionX + containerData.width, 
     containerData.positionY + containerData.height
   )
-  const prescriptionMarkerItemElements = prescriptionListState.map(prescription => {
+  const prescriptionMarkerItemElements = prescriptionList.map(prescription => {
     return <PrescriptionMarkerItem
       key={prescription.id}
       textSize={textSettingsState.prescriptionTextSize}
       color={textSettingsState.color}
       fontWeight={textSettingsState.fontWeight}
-      prescription={prescription} 
+      prescription={prescription}
     />
   })
   

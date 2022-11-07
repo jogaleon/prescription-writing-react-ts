@@ -7,10 +7,18 @@ import './style.css';
 interface IPrescriptionListItemProps {
   prescription: PrescriptionData
   prescriptionListDispatch: React.Dispatch<PrescriptionListActionType>
+  splitPrescritionId: string | null
+  saveSplitPrescriptionId: (id: string) => void
   prescriptionTextSize: string
 }
 
-const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemProps> = ({prescription, prescriptionListDispatch, prescriptionTextSize}) => {
+const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemProps> = ({
+  prescription, 
+  prescriptionListDispatch, 
+  splitPrescritionId,
+  saveSplitPrescriptionId, 
+  prescriptionTextSize
+}) => {
   const [input, setInput] = useState({
     medicineName: prescription.medicineName,
     dosage: prescription.dosage,
@@ -55,7 +63,10 @@ const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemP
           <input type="text" name="quantity" className="input-quantity" value={input.quantity} onChange={handleInputChange} />
         </div>
 
-        <button className="button-delete" onClick={() => prescriptionListDispatch({type: 'DELETE_PRESCRIPTION', payload: {id: prescription.id}})}>Del</button>
+        <div className="button-container">
+          <button className="button-delete" onClick={() => prescriptionListDispatch({type: 'DELETE_PRESCRIPTION', payload: {id: prescription.id}})}>Del</button>
+          <button className="button-delete" onClick={() => saveSplitPrescriptionId(prescription.id)}>Split</button>
+        </div>
 
         <div className="input-container-directions">
           <label htmlFor="input-directions">Directions: </label>
