@@ -65,7 +65,7 @@ const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemP
 
         <div className="button-container">
           <button className="button-delete" onClick={() => prescriptionListDispatch({type: 'DELETE_PRESCRIPTION', payload: {id: prescription.id}})}>Del</button>
-          <button className="button-delete" onClick={() => saveSplitPrescriptionId(prescription.id)}>Split</button>
+          <button className="button-delete" onClick={() => saveSplitPrescriptionId(prescription.id)}>{splitPrescritionId === prescription.id ? 'Unsplit' : 'Split'}</button>
         </div>
 
         <div className="input-container-directions">
