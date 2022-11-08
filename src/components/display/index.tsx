@@ -61,27 +61,36 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
 
     //Print
     const printStyle = useMemo(() => {
+        const width = activeProfile?.printWidth || 200;
+        const height = activeProfile?.printHeight || 200
         const scaleWidth = (activeProfile?.printWidth || 200) / containerData.width;
         const scaleHeight = (activeProfile?.printHeight || 200) / containerData.height;
 
+        // width: ${width}px;
+        // height: ${height}px;
         return `
-            @media print {
-                .display-canvas-container {
+        @media print {
+            .display-canvas-container {
                     transform: scale(${scaleWidth}, ${scaleHeight});
                 }
             }
         `
     },[activeProfile, containerData])
     
-    const printPrescription = useReactToPrint({
+    const printPrescriptionFront = useReactToPrint({
         content: () => containerRef.current,
         pageStyle: printStyle
     })
 
-    const handlePrint = () => {
+    const printPrescriptionBack = useReactToPrint({
+        content: () => backContainerRef.current,
+        pageStyle: printStyle
+    })
+
+    const handlePrint = (printHookFn: () => void) => {
         setHideGuidelines(true)
         setTimeout(() => {
-            printPrescription()
+            printHookFn()
         }, 50)
     }
 
@@ -184,7 +193,8 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                     </div>
                 </div>
             </div>
-            <button onClick={handlePrint}>Print Prescription</button>
+            <button onClick={() => handlePrint(printPrescriptionFront)}>Print Front Prescription</button>
+            <button onClick={() => handlePrint(printPrescriptionBack)}>Print Back Prescription</button>
         </div>
     );
 };
