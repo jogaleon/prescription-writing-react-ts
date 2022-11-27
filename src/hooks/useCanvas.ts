@@ -26,7 +26,7 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
         if (!ctx) return;
         
         const imageElement = await dataToImage(rawImageData);
-        ctx.drawImage(imageElement, 0,0);
+        ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
     },[canvasRef]);
 
     const clearCanvas = useCallback(() => {
@@ -39,20 +39,6 @@ const useCanvas = (initialWidth: number, initialHeight: number):[
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         
     },[canvasRef])
-
-    // const writeText = (x: number, y: number, text: string, size: number, color: string, weight: string, scale: number, maxWidth?: number) => {
-    //     const canvas = canvasRef.current;
-    //     if (!canvas) return
-        
-    //     const ctx = canvas.getContext('2d');
-    //     if (!ctx) return;            
-    //     ctx.strokeStyle = color;
-    //     ctx.fillStyle = color;
-    //     ctx.textBaseline = 'top';
-    //     ctx.font = `${(weight === 'bold') ? 'bold ' : ''}${size / scale}px Arial`;
-    //     console.log(ctx.font)
-    //     ctx.fillText (text, x / scale, y / scale);
-    // }
 
     useEffect(() => {
         resizeCanvas(initialWidth, initialHeight)
