@@ -8,8 +8,8 @@ type MarkerSettingsType = {
 
 const MARKER_SETTINGS: MarkerSettingsType = {
     DEFAULT_WIDTH: 100,
-    MIN_WIDTH: 50,
-    MIN_HEIGHT: 50,
+    MIN_WIDTH: 30,
+    MIN_HEIGHT: 30,
 };
 
 export default MARKER_SETTINGS;

@@ -1,7 +1,6 @@
 @media print {
     .display-canvas-container {
-        width: 105mm;
-        height: 148mm;
+        border: none !important;
     }
 }
 

@@ -40,13 +40,13 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId]);
     
     const [canvasRef, resizeCanvas, drawImageToCanvas, clearCanvas] = useCanvas(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
+    const [imageRef, imageData, resizeImage] = useElement<HTMLImageElement>(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
     const [containerRef, containerData, resizeContainer] = useElement<HTMLDivElement>(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
     const [backContainerRef, backContainerData, resizeBackContainer] = useElement<HTMLDivElement>(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
     
     const [hideGuidelines, setHideGuidelines] = useState(false);
     const [frontPrescriptionList, backPrescriptionList] = useMemo<PrescriptionData[][]>(() => {
         let splitIndex = prescriptionListState.findIndex(prescription => prescription.id === splitPrescriptionId);
-
         return splitArray(splitIndex, prescriptionListState)
     },[prescriptionListState, splitPrescriptionId])
 
@@ -55,7 +55,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
 
     //HANDLERS
     
-    //Print
+    // Print
     // const printStyle = useMemo(() => {
     //     const width = activeProfile?.printWidth || PRINT_SETTINGS.DEFAULT_PRINT_WIDTH;
     //     const height = activeProfile?.printHeight || PRINT_SETTINGS.DEFAULT_PRINT_HEIGHT;
@@ -96,14 +96,14 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             scaleFactor: calculateScale(activeProfile?.printWidth || PRINT_SETTINGS.DEFAULT_PRINT_WIDTH , image.width, 3, true)
         }})
     }
-
+    // console.log(imageState)
     //SIDE EFFECTS
     //Resize canvas/container and draw image
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const image = imageRef.current;
         const container = containerRef.current;
         const backContainer = backContainerRef.current;
-        if (!canvas || !container || !backContainer) return;
+        if (!image || !container || !backContainer) return;
         markersDispatch({type:'RESET_MARKERS'});
 
         const fitDisplayToImage = (imageData: ImageData, displayWidth: number) => {
@@ -113,18 +113,17 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             
             resizeContainer(w, h);
             resizeBackContainer(w, h);
-            resizeCanvas(w, h);
+            resizeImage(w, h);
         }
 
         const resetDisplay = () => {
             resizeContainer(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
             resizeBackContainer(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
-            resizeCanvas(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);            
+            resizeImage(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
         }
         
         if (imageState) {
             fitDisplayToImage(imageState, DISPLAY_SETTINGS.MAX_WIDTH);
-            drawImageToCanvas(imageState.rawData);
         } else {
             clearCanvas()
             resetDisplay()
@@ -176,7 +175,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                     <div className='display-canvas-container' ref={containerRef}>
                         {prescriptionMarkerElement}
                         {markerElements}
-                        <canvas className='display-canvas' ref={canvasRef} />
+                        <img className='display-image' ref={imageRef} src={imageState?.rawData || ''} alt="displayImage" />
                     </div>
                     <div className='display-canvas-container back' ref={backContainerRef}>
                         {backPrescriptionMarkerElement}
