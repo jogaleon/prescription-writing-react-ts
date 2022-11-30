@@ -1,7 +1,11 @@
-@media print {
-    .display-canvas-container {
+/* @media print {
+    .display-container {
         border: none !important;
+        transform: scale(1)
     }
+} */
+
+.display-container-wrapper {
 }
 
 .hidden {
@@ -18,10 +22,10 @@
     position: relative;
     display: flex;
     gap: 10px;
-
+    transform-origin: top left;
 }
 
-.display-canvas-container {
+.display-container {
     position: relative;
 
     border: 2px black solid;

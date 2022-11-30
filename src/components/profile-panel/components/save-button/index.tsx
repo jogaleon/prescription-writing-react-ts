@@ -16,7 +16,7 @@ interface ISaveButtonProps {
 const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
     const {activeProfileId, profilesDispatch} = useContext(ProfileContext) as ProfileContextType
     const {markersState} = useContext(MarkerContext) as MarkerContextType
-    const {prescriptionMarkerState} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType
+    const {prescriptionMarkersState} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType
     const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType
     const {imageState} = useContext(ImageContext) as ImageContextType
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType
@@ -25,7 +25,7 @@ const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
         const newDataChunk: ProfileDataChunk = {
             markers: markersState,
             prescriptionList: prescriptionListState,
-            prescriptionMarker: prescriptionMarkerState,
+            prescriptionMarker: prescriptionMarkersState,
             imageData: imageState,
             textSettings: textSettingsState
         }

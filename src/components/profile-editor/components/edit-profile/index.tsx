@@ -5,6 +5,7 @@ import ProfileContext, { ProfileContextType } from "../../../../context/profile-
 
 import MARKER_SETTINGS from '../../../../settings/markerSettings';
 import TEXT_SETTINGS from '../../../../settings/textSettings';
+import PrescriptionMarkerData from '../../../../types/state/prescriptionMarkerData';
 import calculateScreenPPI from './utils/calculateScreenPPI';
 
 interface IEditProfileProps {
@@ -12,7 +13,7 @@ interface IEditProfileProps {
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DEFAULT_PRESCRIPTION_MARKERS = [
+const DEFAULT_PRESCRIPTION_MARKERS: PrescriptionMarkerData[] = [
     {
         id: uuid(),
         x: 0,

@@ -1,4 +1,4 @@
-import { useContext, useMemo, useCallback, useRef } from 'react';
+import { useContext, useCallback, useRef } from 'react';
 import useDraggableMarker from '../../../../hooks/useDraggableMarker';
 import useResizeMarker from '../../../../hooks/useResizableMarker';
 
@@ -6,46 +6,44 @@ import { IElementDataState } from '../../../../hooks/useElement';
 
 import '../../style.css';
 import './style.css';
-import PrescriptionMarkerContext, { PrescriptionMarkerActionType, PrescriptionMarkerContextType } from '../../../../context/prescription-marker-context/PrescriptionMarkerContext';
+import { PrescriptionMarkerActionType } from '../../../../context/prescription-marker-context/PrescriptionMarkerContext';
 import TextSettingsContext, { TextSettingsContextType } from '../../../../context/text-settings-context/TextSettingsContext';
 import PrescriptionMarkerItem from './prescription-marker-item';
-import PrescriptionListContext, { PrescriptionListContextType } from '../../../../context/prescription-list-context/PrescriptionListContext';
 import PrescriptionMarkerData from '../../../../types/state/prescriptionMarkerData';
 import PrescriptionData from '../../../../types/state/prescriptionData';
 
 interface IPrescriptionMarkerProps {
   prescriptionMarker: PrescriptionMarkerData
-  prescriptionMarkerDispatch: React.Dispatch<PrescriptionMarkerActionType>
+  prescriptionMarkersDispatch: React.Dispatch<PrescriptionMarkerActionType>
   prescriptionList: PrescriptionData[]
   containerData: IElementDataState
   hideGuidelines: boolean
 }
 
-const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({prescriptionMarker, prescriptionMarkerDispatch, prescriptionList, containerData, hideGuidelines}) => {
+const PrescriptionMarker: React.FunctionComponent<IPrescriptionMarkerProps> = ({prescriptionMarker, prescriptionMarkersDispatch, prescriptionList, containerData, hideGuidelines}) => {
   const markerStyle = {
     border: `thin ${hideGuidelines ? 'rgba(0,0,0,0)' : 'red'} solid`
   }
-  
   const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType;
-  
+  // console.log(prescriptionMarker.x)
   const markerRef = useRef<HTMLDivElement | null>(null);
   const markerResizeHandleRef = useRef<HTMLDivElement | null>(null);
 
   const saveMarkerPosition = useCallback((x: number, y: number) => {
-    prescriptionMarkerDispatch({type: 'SAVE_PRESCRIPTION_MARKER_POSITION', payload: {
+    prescriptionMarkersDispatch({type: 'SAVE_PRESCRIPTION_MARKER_POSITION', payload: {
       id: prescriptionMarker.id,
       newX: x,
       newY: y
     }})
-  },[prescriptionMarkerDispatch, prescriptionMarker.id])
+  },[prescriptionMarkersDispatch, prescriptionMarker.id])
 
   const saveMarkerDimensions = useCallback((w: number, h: number) => {
-    prescriptionMarkerDispatch({type: 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS', payload: {
+    prescriptionMarkersDispatch({type: 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS', payload: {
       id: prescriptionMarker.id,
       newW: w,
       newH: h
     }})    
-  },[prescriptionMarkerDispatch, prescriptionMarker.id])
+  },[prescriptionMarkersDispatch, prescriptionMarker.id])
 
   
 

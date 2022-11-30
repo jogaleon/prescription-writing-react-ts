@@ -98,14 +98,13 @@ const markersReducer = (state: MarkerData[], action: MarkerActionType) => {
 }
 
 const MarkerContext = createContext<MarkerContextType | null>(null);
-// const initialState = getArrayFromLocalStorage(DATA_KEY) as MarkerData[]
 const initialMarkerState: MarkerData[] = []
 
 //Context Provider
 export const MarkerContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
     const [markersState, markersDispatch] = useReducer(markersReducer, initialMarkerState);
-    
+
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
         if (!activeProfile?.markers) return

@@ -1,4 +1,3 @@
-
 import { IContextProviderProps } from '../../types/context/contextProviderProps';
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { v4 as uuid } from 'uuid';
@@ -16,8 +15,8 @@ export type PrescriptionMarkerActionType =
 ;
 
 export type PrescriptionMarkerContextType = {
-    prescriptionMarkerState: PrescriptionMarkerData[]
-    prescriptionMarkerDispatch: React.Dispatch<PrescriptionMarkerActionType>
+    prescriptionMarkersState: PrescriptionMarkerData[]
+    prescriptionMarkersDispatch: React.Dispatch<PrescriptionMarkerActionType>
 }
 
 //Reducer
@@ -76,16 +75,16 @@ const initialMarkerState: PrescriptionMarkerData[] = []
 //Context Provider
 export const PrescriptionMarkerContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
-    const [prescriptionMarkerState, prescriptionMarkerDispatch] = useReducer(prescriptionMarkerReducer, initialMarkerState);
-    // console.log(prescriptionMarkerState[1])
+    const [prescriptionMarkersState, prescriptionMarkersDispatch] = useReducer(prescriptionMarkerReducer, initialMarkerState);
+
     useEffect(() => {
-        const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
+        const activeProfile = profilesState.find(profile => profile.id === activeProfileId);
         if (!activeProfile?.prescriptionMarker) return
-        prescriptionMarkerDispatch({type:'LOAD_PRESCRIPTION_MARKERS', payload: activeProfile.prescriptionMarker})
+        prescriptionMarkersDispatch({type:'LOAD_PRESCRIPTION_MARKERS', payload: activeProfile.prescriptionMarker})
     },[activeProfileId])
 
     return (
-        <PrescriptionMarkerContext.Provider value={{prescriptionMarkerState, prescriptionMarkerDispatch}}>
+        <PrescriptionMarkerContext.Provider value={{prescriptionMarkersState, prescriptionMarkersDispatch}}>
             {children}
         </PrescriptionMarkerContext.Provider>
     )

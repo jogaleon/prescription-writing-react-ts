@@ -39,14 +39,14 @@ const Marker: React.FunctionComponent<IMarkerProps> = ({containerData, marker, m
       newX: x,
       newY: y
     }});
-  }, [markersDispatch])
+  }, [marker.id, markersDispatch])
 
   const saveMarkerDimensions = useCallback((w: number) => {
     markersDispatch({type: 'SAVE_MARKER_DIMENSIONS', payload: {
       id: marker.id,
       newW: w
     }});
-  }, [markersDispatch])
+  }, [marker.id, markersDispatch])
 
   useDraggableMarker(markerRef, saveMarkerPosition, marker.x, marker.y, {
     sX: containerData.positionX,
