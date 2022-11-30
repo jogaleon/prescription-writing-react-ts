@@ -111,6 +111,11 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         }})
     }
 
+    //Hide guidelines
+    const toggleMarkerGuidelines = () => {
+        setHideGuidelines(prevHideGuidelines => !prevHideGuidelines)
+    }
+
     //SIDE EFFECTS
     //Resize canvas/container and draw image
     useEffect(() => {
@@ -137,7 +142,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         const displayHeight = imageState.nativeHeight * scaleFactor;
 
         resizeDisplay(displayWidth, displayHeight);
-    },[imageState, imageRef, containerRef, backContainerRef, markersDispatch, resizeImage, resizeContainer, resizeBackContainer]);
+    },[imageState, imageRef, containerRef, backContainerRef, markersDispatch, prescriptionMarkersDispatch, resizeImage, resizeContainer, resizeBackContainer]);
 
     //ELEMENTS
     const markerElements = markersState.map((marker, i) => {
@@ -178,7 +183,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                         accept='image/png, image/jpeg'
                         onChange={handleInputFile}
                     />
-                    <button onClick={() => setHideGuidelines(prevHideGuidelines => !prevHideGuidelines)}>{hideGuidelines ? 'Show marker guidelines' : 'Hide marker guidelines'}</button>
+                    <button onClick={toggleMarkerGuidelines}>{hideGuidelines ? 'Show marker guidelines' : 'Hide marker guidelines'}</button>
                 </div>
                 <div className="display-containers">
                     <div className="display-container-wrapper" ref={frontWrapperRef}>
