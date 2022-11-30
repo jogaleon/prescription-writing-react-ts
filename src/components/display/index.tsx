@@ -50,13 +50,8 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         return splitArray(splitIndex, prescriptionListState)
     },[prescriptionListState, splitPrescriptionId])
 
-    // console.log(imageState);
-    // console.log(activeProfile?.printWidth, activeProfile?.printHeight)
-    // console.log(prescriptionMarkersState[0]?.x);
-    // console.log(markersState[0]?.x);
-
     //HANDLERS
-    
+
     // Print
     const printStyle = useMemo(() => {
         const printWidth = activeProfile?.printWidth || PRINT_SETTINGS.DEFAULT_PRINT_WIDTH;
@@ -77,6 +72,15 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 height: ${printHeight}px;
                 overflow: hidden;
             }
+            .Marker {
+                border: none !important;
+            }
+            .marker-label {
+                display: none !important;
+            }
+            .marker-resize-handle {
+                display: none !important;
+            }
         }
         `
     },[activeProfile, containerData])
@@ -92,10 +96,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     })
 
     const handlePrint = (printHookFn: () => void) => {
-        setHideGuidelines(true)
-        setTimeout(() => {
-            printHookFn()
-        }, 50)
+        printHookFn()
     }
 
     //Image File Input
@@ -128,8 +129,8 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         }
 
         if (!imageState) return resizeDisplay(DISPLAY_SETTINGS.DEFAULT_WIDTH, DISPLAY_SETTINGS.DEFAULT_HEIGHT);
-        // markersDispatch({type:'RESET_MARKERS'});
-        // prescriptionMarkersDispatch({type: 'RESET_PRESCRIPTION_MARKERS'});
+        markersDispatch({type:'RESET_MARKERS'});
+        prescriptionMarkersDispatch({type: 'RESET_PRESCRIPTION_MARKERS'});
 
         const scaleFactor = calculateScale(DISPLAY_SETTINGS.MAX_WIDTH , imageState.nativeWidth, 3, true);
         const displayWidth = imageState.nativeWidth * scaleFactor;
