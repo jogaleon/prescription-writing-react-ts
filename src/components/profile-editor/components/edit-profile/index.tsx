@@ -1,12 +1,14 @@
-import React, { useContext, useState, useMemo } from 'react';
+import React, { useContext, useState, useMemo, useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import ProfileContext, { ProfileContextType } from "../../../../context/profile-context/ProfileContext";
 
 import MARKER_SETTINGS from '../../../../settings/markerSettings';
-import TEXT_SETTINGS from '../../../../settings/textSettings';
 import PrescriptionMarkerData from '../../../../types/state/prescriptionMarkerData';
 import calculateScreenPPI from './utils/calculateScreenPPI';
+
+import TEXT_SETTINGS from '../../../../settings/textSettings';
+import setConverterPPI, { Unit } from './utils/convertToUnit';
 
 interface IEditProfileProps {
     profileId?: string
@@ -31,15 +33,17 @@ const DEFAULT_PRESCRIPTION_MARKERS: PrescriptionMarkerData[] = [
 
 const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, setModalOpen}) => {
     const {profilesState, profilesDispatch} = useContext(ProfileContext) as ProfileContextType
-    const selectedProfile = useMemo(() => profilesState.find(profile => profile.id === profileId),[profilesState, profileId]);
+    const activeProfile = useMemo(() => profilesState.find(profile => profile.id === profileId), [profilesState, profileId]);
 
     const [screenPPI, setScreenPPI] = useState(() => calculateScreenPPI());
-
+    const convertUnit = useMemo(() => setConverterPPI(screenPPI), [screenPPI])  
+    
     const [input, setInput] = useState({
-        name: selectedProfile?.name || '',
-        printWidth: selectedProfile?.printWidth || 0,
-        printHeight: selectedProfile?.printHeight || 0
-    })
+        name: activeProfile?.name || '',
+        printWidth: activeProfile?.printWidth || 0,
+        printHeight: activeProfile?.printHeight || 0,
+        unit: 'px'
+    });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(prevInput => {
@@ -51,7 +55,17 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
     }
 
     const handleUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value)
+        setInput(prevInput => {
+            const convertedWidth = convertUnit(prevInput.printWidth, prevInput.unit as Unit, e.target.value as Unit); 
+            const convertedHeight = convertUnit(prevInput.printHeight, prevInput.unit as Unit, e.target.value as Unit); 
+            
+            return {
+                ...prevInput,
+                printWidth: convertedWidth,
+                printHeight: convertedHeight,
+                unit: e.target.value
+            }
+        })
     }
 
     const handlePresetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -60,6 +74,7 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
 
 
     const handleButtonClick = () => {
+        //New profile
         if (!profileId) {
             profilesDispatch({type: 'ADD_PROFILE', payload: {
                 id: uuid(),
@@ -77,7 +92,8 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
                 },
                 printWidth: input.printWidth,
                 printHeight: input.printHeight,
-            }})
+            }});
+        //Update profile
         } else {
             profilesDispatch({type: 'EDIT_PROFILE', payload: {id: profileId, profileDataChunk: {
                 name: input.name,
@@ -97,17 +113,12 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
         
         <p>Print Size</p>
         <span>Unit: </span>        
-        <input type="radio" name="printSizeUnit" id="unit-px" value="px" onChange={handleUnitChange} />
+        <input type="radio" name="unit" id="unit-px" value="px" checked={input.unit === "px"} onChange={handleUnitChange} />
         <label htmlFor="unit-px">px</label>
-        <input type="radio" name="printSizeUnit" id="unit-px" value="mm" onChange={handleUnitChange} />
+        <input type="radio" name="unit" id="unit-mm" value="mm" checked={input.unit === "mm"} onChange={handleUnitChange} />
         <label htmlFor="unit-mm">mm</label>
-        <input type="radio" name="printSizeUnit" id="unit-px" value="in" onChange={handleUnitChange} />
-        <label htmlFor="unit-px">px</label> <br/>
-        {/* <select name="printSizeUnit" onChange={handleUnitChange}>
-            <option value="px">px</option>
-            <option value="in">in</option>
-            <option value="mm">mm</option>
-        </select><br /> */}
+        <input type="radio" name="unit" id="unit-in" value="in" checked={input.unit === "in"} onChange={handleUnitChange} />
+        <label htmlFor="unit-in">in</label> <br/>
 
         <label htmlFor="printSizePresets">Paper Sizes: </label>
         <select name="printSizePresets" onChange={handlePresetChange}>
