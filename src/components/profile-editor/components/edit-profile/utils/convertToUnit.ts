@@ -6,8 +6,6 @@ type PixelTable = {
     in: number,
 }
 
-
-
 const convertToUnit = (inputValue: number, inputUnit: Unit, targetUnit: Unit, pxTable: PixelTable) => {
   if (inputUnit === targetUnit) return inputValue;
 

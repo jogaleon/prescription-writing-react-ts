@@ -4,6 +4,7 @@ import readFile from './utils/readFile';
 import dataToImage from './utils/dataToImage';
 import calculateScale from './utils/calculateScale';
 import splitArray from '../../global-utils/splitArray';
+import setConverterPPI from '../profile-editor/components/edit-profile/utils/convertToUnit';
 import { useReactToPrint } from 'react-to-print';
 
 import PrescriptionData from '../../types/state/prescriptionData';
@@ -22,6 +23,7 @@ import DISPLAY_SETTINGS from '../../settings/displaySettings';
 import PRINT_SETTINGS from '../../settings/printSettings';
 
 import './style.css'
+import roundNum from '../../global-utils/roundNum';
 
 interface IDisplayProps {
     width: number
@@ -54,12 +56,22 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
 
     // Print
     const printStyle = useMemo(() => {
-        const printWidth = activeProfile?.printWidth || PRINT_SETTINGS.DEFAULT_PRINT_WIDTH;
-        const printHeight = activeProfile?.printHeight || PRINT_SETTINGS.DEFAULT_PRINT_HEIGHT;
+        const convertUnit = setConverterPPI(96);
+        const unit = activeProfile?.printSettings?.unit || 'px';
+        // const printWidth = convertUnit(activeProfile?.printSettings?.printWidth || PRINT_SETTINGS.DEFAULT_PRINT_WIDTH, unit, 'px') ;
+        // const printHeight = convertUnit(activeProfile?.printSettings?.printHeight || PRINT_SETTINGS.DEFAULT_PRINT_HEIGHT, unit, 'px');
+        const printWidth = 793;
+        const printHeight = 1122;
+        const isPortrait = activeProfile?.printSettings?.orientation === "portrait" || true;
+
         const displayWidth = containerData.width || DISPLAY_SETTINGS.DEFAULT_WIDTH;
         const displayHeight = containerData.height || DISPLAY_SETTINGS.DEFAULT_HEIGHT;
         const scaleW = calculateScale(printWidth, displayWidth, 3, false);
         const scaleH = calculateScale(printHeight, displayHeight, 3, false);
+        // console.log(printWidth, printHeight, unit);
+        console.log("print", printWidth, printHeight);
+        console.log("display", displayWidth, displayHeight);
+        console.log(scaleW, scaleH)
 
         return `
         @media print {
@@ -71,6 +83,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 width: ${printWidth}px;
                 height: ${printHeight}px;
                 overflow: hidden;
+                border: thin solid black;
             }
             .Marker {
                 border: none !important;
@@ -83,7 +96,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
             }
         }
         `
-    },[activeProfile, containerData])
+    },[activeProfile?.printSettings, containerData])
     
     const printPrescriptionFront = useReactToPrint({
         content: () => frontWrapperRef.current,

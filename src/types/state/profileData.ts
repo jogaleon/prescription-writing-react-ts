@@ -2,6 +2,7 @@ import ImageData from "./imageData"
 import MarkerData from "./markerData"
 import MedicineEntryData from "./prescriptionData"
 import PrescriptionMarkerData from "./prescriptionMarkerData"
+import PrintSettings from "./printSettings"
 import TextSettings from "./textSettings"
 
 type ProfileData = {
@@ -12,8 +13,7 @@ type ProfileData = {
     prescriptionList: MedicineEntryData[]
     prescriptionMarker: PrescriptionMarkerData[]
     textSettings: TextSettings | null
-    printWidth: number
-    printHeight: number
+    printSettings: PrintSettings<number> | null
 }
 export type ProfileDataChunk = {
     id?: string
@@ -23,8 +23,7 @@ export type ProfileDataChunk = {
     prescriptionList?: MedicineEntryData[]
     prescriptionMarker?: PrescriptionMarkerData[]
     textSettings?: TextSettings | null
-    printWidth?: number
-    printHeight?: number
+    printSettings?: PrintSettings<number> | null
 }
 
 export default ProfileData
