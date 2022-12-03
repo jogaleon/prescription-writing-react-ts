@@ -13,7 +13,7 @@ const Main: React.FunctionComponent<IMainProps> = (props) => {
         <ProfilePanel />
         <MarkerEditor />
         <PrescriptionListEditor />
-        <Display width={1200} height={600} />
+        <Display />
     </div>
   );
 };

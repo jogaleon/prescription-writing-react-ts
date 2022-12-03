@@ -18,7 +18,8 @@ const ProfilePanel: React.FunctionComponent<IProfilePanelProps> = (props) => {
   const [profileEditorModalOpen, setProfileEditorModalOpen] = useState(false);
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 
-  const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId])
+  const activeProfile = useMemo(() => profilesState.find(profile => profile.id === activeProfileId),[profilesState, activeProfileId]);
+
 
   return (
     <div className="ProfilePanel">
