@@ -26,10 +26,7 @@ import './style.css'
 import roundNum from '../../global-utils/roundNum';
 
 interface IDisplayProps {
-    width: number
-    height: number
 }
-
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
     const {prescriptionMarkersState, prescriptionMarkersDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
@@ -69,9 +66,9 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
         const scaleW = calculateScale(printWidth, displayWidth, 3, false);
         const scaleH = calculateScale(printHeight, displayHeight, 3, false);
         // console.log(printWidth, printHeight, unit);
-        console.log("print", printWidth, printHeight);
-        console.log("display", displayWidth, displayHeight);
-        console.log(scaleW, scaleH)
+        // console.log("print", printWidth, printHeight);
+        // console.log("display", displayWidth, displayHeight);
+        // console.log(scaleW, scaleH)
 
         return `
         @media print {

@@ -35,10 +35,9 @@ const initialState: PrintSettings<number> = {
     orientation: "portrait",
 }
 //Context Provider
-export const TextSettingsContextProvider = ({children}: IContextProviderProps) => {
+export const PrintSettingsContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType
     const [printSettingsState, printSettingsDispatch] = useReducer(printSettingsReducer, initialState)
-    console.log(printSettingsState.printHeight);
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
         if (!activeProfile?.printSettings) return

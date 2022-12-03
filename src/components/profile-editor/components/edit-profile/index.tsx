@@ -54,7 +54,7 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
         preset: activeProfile?.printSettings?.preset || 'custom',
     });
     
-    const convertUnit = useMemo(() => setConverterPPI(screenPPI), [screenPPI]);  
+    const convertUnit = useMemo(() => setConverterPPI(screenPPI), [screenPPI]);
     const roundedWidth = useMemo(() => roundNum(parseFloat(input.printWidth), DECIMAL_PLACES, true),[input.printWidth]);
     const roundedHeight = useMemo(() => roundNum(parseFloat(input.printHeight), DECIMAL_PLACES, true),[input.printHeight]);
 
@@ -142,7 +142,6 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
             }});
         //Update profile
         } else {
-
             profilesDispatch({type: 'EDIT_PROFILE', payload: {id: profileId, profileDataChunk: {
                 name: input.name,
                 printSettings: {
