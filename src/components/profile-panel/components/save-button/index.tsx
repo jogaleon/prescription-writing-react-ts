@@ -17,7 +17,7 @@ const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
     const {activeProfileId, profilesDispatch} = useContext(ProfileContext) as ProfileContextType
     const {markersState} = useContext(MarkerContext) as MarkerContextType
     const {prescriptionMarkersState} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType
-    const {prescriptionListState} = useContext(PrescriptionListContext) as PrescriptionListContextType
+    const {prescriptionListState, prescriptionSplitId} = useContext(PrescriptionListContext) as PrescriptionListContextType
     const {imageState} = useContext(ImageContext) as ImageContextType
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType
 
@@ -26,6 +26,7 @@ const SaveButton: React.FunctionComponent<ISaveButtonProps> = (props) => {
             markers: markersState,
             prescriptionList: prescriptionListState,
             prescriptionMarker: prescriptionMarkersState,
+            prescriptionSplitId: prescriptionSplitId,
             imageData: imageState,
             textSettings: textSettingsState
         }

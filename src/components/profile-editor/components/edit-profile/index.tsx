@@ -123,6 +123,7 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
                 imageData: null,
                 markers: [],
                 prescriptionList: [],
+                prescriptionSplitId: '',
                 prescriptionMarker: DEFAULT_PRESCRIPTION_MARKERS,
                 textSettings: {
                     markerGlobalTextSize: '12',

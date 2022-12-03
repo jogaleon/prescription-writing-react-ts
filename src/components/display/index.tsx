@@ -33,7 +33,7 @@ interface IDisplayProps {
 const Display: React.FunctionComponent<IDisplayProps> = () => {
     const {markersState, markersDispatch} = useContext(MarkerContext) as MarkerContextType;
     const {prescriptionMarkersState, prescriptionMarkersDispatch} = useContext(PrescriptionMarkerContext) as PrescriptionMarkerContextType;
-    const {prescriptionListState, splitPrescriptionId} = useContext(PrescriptionListContext) as PrescriptionListContextType;
+    const {prescriptionListState, prescriptionSplitId} = useContext(PrescriptionListContext) as PrescriptionListContextType;
     const {textSettingsState} = useContext(TextSettingsContext) as TextSettingsContextType; 
     const {imageState, imageDispatch} = useContext(ImageContext) as ImageContextType;
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType;
@@ -48,9 +48,9 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const [hideGuidelines, setHideGuidelines] = useState(false);
 
     const [frontPrescriptionList, backPrescriptionList] = useMemo<PrescriptionData[][]>(() => {
-        let splitIndex = prescriptionListState.findIndex(prescription => prescription.id === splitPrescriptionId);
+        let splitIndex = prescriptionListState.findIndex(prescription => prescription.id === prescriptionSplitId);
         return splitArray(splitIndex, prescriptionListState)
-    },[prescriptionListState, splitPrescriptionId])
+    },[prescriptionListState, prescriptionSplitId])
 
     //HANDLERS
 
@@ -58,10 +58,10 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
     const printStyle = useMemo(() => {
         const convertUnit = setConverterPPI(96);
         const unit = activeProfile?.printSettings?.unit || 'px';
-        // const printWidth = convertUnit(activeProfile?.printSettings?.printWidth || PRINT_SETTINGS.DEFAULT_PRINT_WIDTH, unit, 'px') ;
-        // const printHeight = convertUnit(activeProfile?.printSettings?.printHeight || PRINT_SETTINGS.DEFAULT_PRINT_HEIGHT, unit, 'px');
-        const printWidth = 793;
-        const printHeight = 1122;
+        const printWidth = convertUnit(activeProfile?.printSettings?.printWidth || PRINT_SETTINGS.DEFAULT_PRINT_WIDTH, unit, 'px') ;
+        const printHeight = convertUnit(activeProfile?.printSettings?.printHeight || PRINT_SETTINGS.DEFAULT_PRINT_HEIGHT, unit, 'px');
+        // const printWidth = 793;
+        // const printHeight = 1122;
         const isPortrait = activeProfile?.printSettings?.orientation === "portrait" || true;
 
         const displayWidth = containerData.width || DISPLAY_SETTINGS.DEFAULT_WIDTH;
@@ -83,7 +83,7 @@ const Display: React.FunctionComponent<IDisplayProps> = () => {
                 width: ${printWidth}px;
                 height: ${printHeight}px;
                 overflow: hidden;
-                border: thin solid black;
+                border: none;
             }
             .Marker {
                 border: none !important;

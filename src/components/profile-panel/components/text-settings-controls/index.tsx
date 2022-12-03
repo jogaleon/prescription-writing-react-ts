@@ -33,9 +33,9 @@ const TextSettingsControls: React.FunctionComponent<ITextSettingsControlsProps> 
     <div className="TextSettingsControls">
         {/* <h2>Text Settings Controls</h2> */}
         <label htmlFor="markerGlobalTextSize">Marker Global Text Size:</label>
-        <input type="number" name="markerGlobalTextSize" value={input.markerGlobalTextSize} onChange={handleInputChange} />
+        <input type="number" name="markerGlobalTextSize" min="0" value={input.markerGlobalTextSize} onChange={handleInputChange} />
         <label htmlFor="prescriptionTextSize">Prescription Text Size:</label>
-        <input type="number" name="prescriptionTextSize" value={input.prescriptionTextSize} onChange={handleInputChange} />
+        <input type="number" name="prescriptionTextSize" min="0" value={input.prescriptionTextSize} onChange={handleInputChange} />
         <label htmlFor="color">Color:</label>
         <input type="color" name="color" value={input.color} onChange={handleInputChange} />
         <label htmlFor="fontWeight">Font Weight: </label>

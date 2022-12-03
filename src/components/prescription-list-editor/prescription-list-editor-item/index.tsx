@@ -7,16 +7,16 @@ import './style.css';
 interface IPrescriptionListItemProps {
   prescription: PrescriptionData
   prescriptionListDispatch: React.Dispatch<PrescriptionListActionType>
-  splitPrescritionId: string | null
-  saveSplitPrescriptionId: (id: string) => void
+  prescriptionSplitId: string | null
+  savePrescriptionSplitId: (id: string) => void
   prescriptionTextSize: string
 }
 
 const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemProps> = ({
   prescription, 
   prescriptionListDispatch, 
-  splitPrescritionId,
-  saveSplitPrescriptionId, 
+  prescriptionSplitId,
+  savePrescriptionSplitId, 
   prescriptionTextSize
 }) => {
   const [input, setInput] = useState({
@@ -65,7 +65,7 @@ const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemP
 
         <div className="button-container">
           <button className="button-delete" onClick={() => prescriptionListDispatch({type: 'DELETE_PRESCRIPTION', payload: {id: prescription.id}})}>Del</button>
-          <button className="button-delete" onClick={() => saveSplitPrescriptionId(prescription.id)}>{splitPrescritionId === prescription.id ? 'Unsplit' : 'Split'}</button>
+          <button className="button-delete" onClick={() => savePrescriptionSplitId(prescription.id)}>{prescriptionSplitId === prescription.id ? 'Unsplit' : 'Split'}</button>
         </div>
 
         <div className="input-container-directions">

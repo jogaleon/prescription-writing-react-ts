@@ -11,6 +11,7 @@ type ProfileData = {
     imageData: ImageData | null
     markers: MarkerData[]
     prescriptionList: MedicineEntryData[]
+    prescriptionSplitId: string
     prescriptionMarker: PrescriptionMarkerData[]
     textSettings: TextSettings | null
     printSettings: PrintSettings<number> | null
@@ -21,6 +22,7 @@ export type ProfileDataChunk = {
     imageData?: ImageData | null
     markers?: MarkerData[]
     prescriptionList?: MedicineEntryData[]
+    prescriptionSplitId?: string
     prescriptionMarker?: PrescriptionMarkerData[]
     textSettings?: TextSettings | null
     printSettings?: PrintSettings<number> | null
