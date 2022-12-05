@@ -9,7 +9,7 @@ import './style.css';
 interface IMarkerEditorItemProps {
     marker: MarkerData
     markersDispatch: React.Dispatch<MarkerActionType>
-    globalTextSize: string
+    globalTextSize: number
 }
 
 interface IInputState {
@@ -28,9 +28,10 @@ const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = ({mark
     const debouncedInput = useDebounce(input);
 
     useEffect(() => {
+        console.log(typeof globalTextSize);
         if (isTextLocked) setInput(prevInput => ({
             ...prevInput,
-            textSize: globalTextSize
+            textSize: globalTextSize.toFixed(1)
         }))
     },[isTextLocked, globalTextSize])
 
@@ -68,7 +69,7 @@ const MarkerEditorItem: React.FunctionComponent<IMarkerEditorItemProps> = ({mark
 
         <div className="input-container">
             <label htmlFor="input-text">Size: </label>
-            <input type="number" name="textSize" className="input-text-size" value={input.textSize} disabled={isTextLocked} onChange={handleInputChange} />
+            <input type="number" name="textSize" className="input-text-size" min="0" value={input.textSize} disabled={isTextLocked} onChange={handleInputChange} />
         </div>        
        
         <button onClick={toggleTextLock}>{isTextLocked ? 'Unlock Size' : 'Lock Size'}</button>

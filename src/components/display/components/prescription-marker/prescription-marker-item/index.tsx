@@ -2,7 +2,7 @@ import PrescriptionData from '../../../../../types/state/prescriptionData';
 import './style.css';
 
 interface IPrescriptionMarkerItemProps {
-    textSize: string
+    textSize: number
     color: string
     fontWeight: string
     prescription: PrescriptionData

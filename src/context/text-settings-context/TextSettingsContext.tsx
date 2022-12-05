@@ -5,20 +5,20 @@ import TextSettings from '../../types/state/textSettings';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
 
 export type TextSettingsActionType = 
-    {type: 'SAVE_TEXT_SETTINGS' | 'LOAD_TEXT_SETTINGS'; payload: TextSettings}
+    {type: 'SAVE_TEXT_SETTINGS' | 'LOAD_TEXT_SETTINGS'; payload: TextSettings<number>}
 ;
 
 export type TextSettingsContextType = {
-    textSettingsState: TextSettings
+    textSettingsState: TextSettings<number>
     textSettingsDispatch: React.Dispatch<TextSettingsActionType>
 }
 
 //Reducer
-const saveTextSettings = (newTextSettings: TextSettings) => {
+const saveTextSettings = (newTextSettings: TextSettings<number>) => {
     return newTextSettings
 }
 
-const textSettingsReducer = (state: TextSettings, action: TextSettingsActionType) => {
+const textSettingsReducer = (state: TextSettings<number>, action: TextSettingsActionType) => {
     switch(action.type) {
         case 'SAVE_TEXT_SETTINGS': 
         case 'LOAD_TEXT_SETTINGS': return saveTextSettings(action.payload)
@@ -27,10 +27,10 @@ const textSettingsReducer = (state: TextSettings, action: TextSettingsActionType
 }
 
 const TextSettingsContext = createContext<TextSettingsContextType | null>(null);
-const initialState: TextSettings = {
-    markerGlobalTextSize: '',
-    prescriptionTextSize: '',
-    prescriptionEntrySpacing: '',
+const initialState: TextSettings<number> = {
+    markerGlobalTextSize: 0,
+    prescriptionTextSize: 0,
+    prescriptionEntrySpacing: 0,
     color: '#000000',
     fontWeight: 'normal'
 }
@@ -38,7 +38,7 @@ const initialState: TextSettings = {
 //Context Provider
 export const TextSettingsContextProvider = ({children}: IContextProviderProps) => {
     const {profilesState, activeProfileId} = useContext(ProfileContext) as ProfileContextType
-    const [textSettingsState, textSettingsDispatch] = useReducer<React.Reducer<TextSettings, TextSettingsActionType>>(textSettingsReducer, initialState)
+    const [textSettingsState, textSettingsDispatch] = useReducer<React.Reducer<TextSettings<number>, TextSettingsActionType>>(textSettingsReducer, initialState)
     
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)

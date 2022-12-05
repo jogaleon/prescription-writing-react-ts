@@ -9,7 +9,7 @@ interface IPrescriptionListItemProps {
   prescriptionListDispatch: React.Dispatch<PrescriptionListActionType>
   prescriptionSplitId: string | null
   savePrescriptionSplitId: (id: string) => void
-  prescriptionTextSize: string
+  prescriptionTextSize: number
 }
 
 const PrescriptionListEditorItem: React.FunctionComponent<IPrescriptionListItemProps> = ({

@@ -13,7 +13,7 @@ type ProfileData = {
     prescriptionList: MedicineEntryData[]
     prescriptionSplitId: string
     prescriptionMarker: PrescriptionMarkerData[]
-    textSettings: TextSettings | null
+    textSettings: TextSettings<number> | null
     printSettings: PrintSettings<number> | null
 }
 export type ProfileDataChunk = {
@@ -24,7 +24,7 @@ export type ProfileDataChunk = {
     prescriptionList?: MedicineEntryData[]
     prescriptionSplitId?: string
     prescriptionMarker?: PrescriptionMarkerData[]
-    textSettings?: TextSettings | null
+    textSettings?: TextSettings<number> | null
     printSettings?: PrintSettings<number> | null
 }
 

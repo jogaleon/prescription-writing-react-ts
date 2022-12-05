@@ -126,9 +126,9 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
                 prescriptionSplitId: '',
                 prescriptionMarker: DEFAULT_PRESCRIPTION_MARKERS,
                 textSettings: {
-                    markerGlobalTextSize: '12',
-                    prescriptionTextSize: '12',
-                    prescriptionEntrySpacing: '12',
+                    markerGlobalTextSize: 12,
+                    prescriptionTextSize: 12,
+                    prescriptionEntrySpacing: 12,
                     color: '#000000',
                     fontWeight: 'normal',        
                 },
