@@ -57,7 +57,7 @@ export const ProfileContextProvider = ({children}: IContextProviderProps) => {
     const [activeProfileId, setActiveProfileId] = useState(initialActiveProfileIdState)
     // console.log(profilesState)
     // console.log(activeProfileId)
-    console.log(profilesState.find(profile => profile.id === activeProfileId));
+    // console.log(profilesState.find(profile => profile.id === activeProfileId));
     useEffect(() => {
         localStorage.setItem(PROFILES_DATA_KEY, JSON.stringify(profilesState))
     },[profilesState])
