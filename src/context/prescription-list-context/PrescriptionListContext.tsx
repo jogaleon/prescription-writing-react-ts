@@ -1,12 +1,12 @@
 import { IContextProviderProps } from '../../types/context/contextProviderProps';
 import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { v4 as uuid } from "uuid";
-import PrescriptionData, { PrescriptionDataChunk } from '../../types/state/prescriptionData';
+import PrescriptionData from '../../types/state/prescriptionData';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
 
 export type PrescriptionListActionType =
     {type: 'ADD_PRESCRIPTION'} |
-    {type: 'EDIT_PRESCRIPTION'; payload: {id: string, prescription: PrescriptionDataChunk}} |
+    {type: 'EDIT_PRESCRIPTION'; payload: {id: string, prescription: Partial<PrescriptionData>}} |
     {type: 'DELETE_PRESCRIPTION'; payload: {id: string}} |
     {type: 'LOAD_PRESCRIPTION_LIST'; payload: PrescriptionData[]} |
     {type: 'CLEAR_PRESCRIPTION_LIST'}
@@ -31,7 +31,7 @@ const addPrescription = (state: PrescriptionData[]) => {
     }]
 }
 
-const editPrescription = (state: PrescriptionData[], id: string, prescriptionDataChunk: PrescriptionDataChunk) => {
+const editPrescription = (state: PrescriptionData[], id: string, prescriptionDataChunk: Partial<PrescriptionData>) => {
     return state.map(prescription => (prescription.id !== id) ? prescription : {
         ...prescription,
         ...prescriptionDataChunk

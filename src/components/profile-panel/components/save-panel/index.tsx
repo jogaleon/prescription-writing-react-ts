@@ -7,7 +7,7 @@ import PrescriptionMarkerContext, { PrescriptionMarkerContextType } from '../../
 import PrintSettingsContext, { PrintSettingsContextType } from '../../../../context/print-settings-context/PrintSettingsContext';
 import ProfileContext, { ProfileContextType } from '../../../../context/profile-context/ProfileContext';
 import TextSettingsContext, { TextSettingsContextType } from '../../../../context/text-settings-context/TextSettingsContext';
-import { ProfileDataChunk } from '../../../../types/state/profileData';
+import ProfileData from '../../../../types/state/profileData';
 
 import './style.css';
 
@@ -43,7 +43,7 @@ const SavePanel: React.FunctionComponent<ISaveButtonProps> = ({isSaved, setIsSav
     ]);
 
     const buttonClickHandler = () => {
-        const newDataChunk: ProfileDataChunk = {
+        const newDataChunk: Partial<ProfileData> = {
             markers: markersState,
             prescriptionList: prescriptionListState,
             prescriptionMarker: prescriptionMarkersState,

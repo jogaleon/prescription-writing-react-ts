@@ -4,12 +4,12 @@ import { v4 as uuid } from 'uuid';
 
 import MARKER_SETTINGS from '../../settings/markerSettings';
 import ProfileContext, { ProfileContextType } from '../profile-context/ProfileContext';
-import PrescriptionMarkerData, { PrescriptionMarkerDataChunk } from '../../types/state/prescriptionMarkerData';
+import PrescriptionMarkerData from '../../types/state/prescriptionMarkerData';
 
 export type PrescriptionMarkerActionType =
     {type: 'SAVE_PRESCRIPTION_MARKER_POSITION'; payload: {id: string, newX: number, newY: number}} |
     {type: 'SAVE_PRESCRIPTION_MARKER_DIMENSIONS'; payload: {id: string, newW: number, newH: number}} |  
-    {type: 'EDIT_PRESCRIPTION_MARKER'; payload: {id: string, prescriptionMarkerDataChunk: PrescriptionMarkerDataChunk}} |
+    {type: 'EDIT_PRESCRIPTION_MARKER'; payload: {id: string, prescriptionMarkerDataChunk: Partial<PrescriptionMarkerData>}} |
     {type: 'LOAD_PRESCRIPTION_MARKERS'; payload: PrescriptionMarkerData[]} |
     {type: 'RESET_PRESCRIPTION_MARKERS'}
 ;
@@ -36,7 +36,7 @@ const savePrescriptionMarkerDimensions = (state: PrescriptionMarkerData[], id: s
     })
 }
 
-const editPrescriptionMarker = (state: PrescriptionMarkerData[], id: string, prescriptionMarkerDataChunk: PrescriptionMarkerDataChunk) => {
+const editPrescriptionMarker = (state: PrescriptionMarkerData[], id: string, prescriptionMarkerDataChunk: Partial<PrescriptionMarkerData>) => {
     return state.map(marker => (marker.id !== id) ? marker : {
         ...marker,
         ...prescriptionMarkerDataChunk

@@ -2,7 +2,7 @@ import { IContextProviderProps } from '../../types/context/contextProviderProps'
 import { createContext, useEffect, useReducer, useState } from "react";
 import { v4 as uuid } from "uuid";
 
-import ProfileData, { ProfileDataChunk } from '../../types/state/profileData';
+import ProfileData from '../../types/state/profileData';
 import getArrayFromLocalStorage from '../utils/getArrayFromLocalStorage';
 import MARKER_SETTINGS from '../../settings/markerSettings';
 
@@ -11,7 +11,7 @@ const ACTIVE_PROFILE_ID_KEY = 'ACTIVE_PROFILE_ID';
 
 export type ProfileActionType = 
     {type: 'ADD_PROFILE' ; payload: ProfileData} |
-    {type: 'EDIT_PROFILE' ; payload: {id: string, profileDataChunk: ProfileDataChunk}} |
+    {type: 'EDIT_PROFILE' ; payload: {id: string, profileDataChunk: Partial<ProfileData>}} |
     {type: 'DELETE_PROFILE'; payload: {id: string}}
 ;
 
@@ -28,7 +28,7 @@ const addProfile = (state: ProfileData[], newProfile: ProfileData) => {
     return [...state, newProfile]
 }
 
-const editProfile = (state: ProfileData[], id: string, profileDataChunk: ProfileDataChunk) => {
+const editProfile = (state: ProfileData[], id: string, profileDataChunk: Partial<ProfileData>) => {
     return state.map(profile => {
         return (profile.id !== id) ? profile : {...profile, ...profileDataChunk}
     })
