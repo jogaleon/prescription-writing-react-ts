@@ -76,7 +76,8 @@ export const PrescriptionListContextProvider = ({children}: IContextProviderProp
     useEffect(() => {
         const activeProfile = profilesState.find(profile => profile.id === activeProfileId)
         if (!activeProfile?.prescriptionList) return
-        prescriptionListDispatch({type:'LOAD_PRESCRIPTION_LIST', payload: activeProfile.prescriptionList})
+        prescriptionListDispatch({type:'LOAD_PRESCRIPTION_LIST', payload: activeProfile.prescriptionList});
+        setPrescriptionSplitId(activeProfile.prescriptionSplitId);
     },[activeProfileId])
 
     return (
