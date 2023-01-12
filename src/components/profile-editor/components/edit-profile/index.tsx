@@ -22,6 +22,7 @@ interface IEditProfileProps {
 interface IState extends PrintSettings<string> {
         name: string;
 }
+
 const DEFAULT_PRESCRIPTION_MARKERS: PrescriptionMarkerData[] = [
     {
         id: uuid(),
@@ -57,7 +58,7 @@ const EditProfile: React.FunctionComponent<IEditProfileProps> = ({profileId, set
     const convertUnit = useMemo(() => setConverterPPI(screenPPI), [screenPPI]);
     const roundedWidth = useMemo(() => roundNum(parseFloat(input.printWidth), DECIMAL_PLACES, true),[input.printWidth]);
     const roundedHeight = useMemo(() => roundNum(parseFloat(input.printHeight), DECIMAL_PLACES, true),[input.printHeight]);
-
+    // console.log(typeof roundedWidth);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(prevInput => {
